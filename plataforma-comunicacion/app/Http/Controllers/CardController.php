@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCardRequest;
+use App\Http\Requests\UpdateCardRequest;
 use Illuminate\Support\Str;
 
 class CardController extends Controller
@@ -13,17 +14,21 @@ class CardController extends Controller
     public function index()
     {
         $cards = Card::all();
-        return response()->json($cards);
+        return response()->json([
+            'success' => true,
+            'data' => $cards
+        ]);
     }
 
     // Mostrar tarjeta específica
     public function show($id)
     {
-        $card = Card::find($id);
-        if(!$card){
-            return response()->json(['message' => 'Card not found'], 404);
-        }
-        return response()->json($card);
+        $card = Card::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $card
+        ]);
     }
 
     // Crear tarjeta
@@ -33,30 +38,37 @@ class CardController extends Controller
         $data['uuid'] = Str::uuid();
 
         $card = Card::create($data);
-        return response()->json($card, 201);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Card created successfully',
+            'data' => $card
+        ], 201);
     }
 
     // Actualizar tarjeta
-    public function update(StoreCardRequest $request, $id)
+    public function update(UpdateCardRequest $request, $id)
     {
-        $card = Card::find($id);
-        if(!$card){
-            return response()->json(['message' => 'Card not found'], 404);
-        }
+        $card = Card::findOrFail($id);
 
         $card->update($request->validated());
-        return response()->json($card);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Card updated successfully',
+            'data' => $card
+        ]);
     }
 
     // Eliminar tarjeta
     public function destroy($id)
     {
-        $card = Card::find($id);
-        if(!$card){
-            return response()->json(['message' => 'Card not found'], 404);
-        }
-
+        $card = Card::findOrFail($id);
         $card->delete();
-        return response()->json(['message' => 'Card deleted']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Card deleted successfully'
+        ]);
     }
 }
