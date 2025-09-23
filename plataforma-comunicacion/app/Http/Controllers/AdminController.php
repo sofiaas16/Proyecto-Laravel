@@ -3,17 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    /**
-     * Método de prueba para el panel de admin
-     */
-    public function index()
+    // Registrar un nuevo administrador
+    public function registerAdmin(Request $request)
     {
-        return response()->json([
-            'message' => '¡Bienvenido al panel de administración!',
-            'user' => auth()->user() // devuelve datos del usuario autenticado
+        // Validar datos
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
         ]);
+
+        // Crear admin
+        $admin = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_id' => 1, // asumimos 1 = admin
+        ]);
+
+        return response()->json([
+            'admin' => $admin,
+            'message' => 'Administrador registrado correctamente'
+        ], 201);
     }
 }

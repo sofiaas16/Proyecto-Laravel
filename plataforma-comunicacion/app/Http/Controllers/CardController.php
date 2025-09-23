@@ -10,12 +10,6 @@ use Illuminate\Support\Str;
 class CardController extends Controller
 {
     // Listar todas las tarjetas
-    public function __construct()
-{
-    // Solo proteger store, update y destroy
-    $this->middleware('auth:sanctum')->only(['store','update','destroy']);
-}
-
     public function index()
     {
         $cards = Card::all();
