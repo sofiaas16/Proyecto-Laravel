@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Test de Trastornos — Likert</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            /* Ajustes para los círculos (mejor visual que solo border) */
+            .likert-circle {
+                width: 44px;
+                height: 44px;
+                border-radius: 9999px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid #cbd5e1; /* tailwind gray-300 */
+                transition: all 0.15s;
+            }
+            /* checked state handled via peer classes in the markup */
+        </style>
+    </head>
+    <body
+        class="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 flex items-start p-6"
+    >
+        <main class="w-full max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <header class="text-center mb-6">
+                    <h1 class="text-3xl font-bold text-gray-800">
+                        Test de Trastornos
+                    </h1>
+                    <p class="text-gray-600 mt-2">
+                        Responde a cada afirmación seleccionando tu grado de
+                        acuerdo (1 = En desacuerdo, 7 = De acuerdo).
+                    </p>
+                    <div
+                        class="mt-3 text-sm text-gray-500"
+                        id="progressText"
+                        aria-live="polite"
+                    ></div>
+                </header>
+
+                <!-- Formulario: preguntas generadas por JS -->
+                <form id="testForm" class="space-y-8" novalidate>
+                    <div id="questionsContainer" class="space-y-6"></div>
+
+                    <div class="text-center pt-4">
+                        <button
+                            type="submit"
+                            class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+                        >
+                            Enviar respuestas
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Resultado -->
+            <div
+                id="result"
+                class="mt-8 hidden bg-white rounded-xl shadow-md p-6"
+                aria-live="polite"
+            ></div>
+        </main>
+
+        <script src="test.js"></script>
+    </body>
+</html>
