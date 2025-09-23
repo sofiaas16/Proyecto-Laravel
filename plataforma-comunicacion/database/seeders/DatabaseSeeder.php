@@ -11,12 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Llamamos al seeder de roles
+        // Llamamos a cada seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,    // Usuarios normales
             CardSeeder::class,    // Tarjetas
+            AdminSeeder::class,   // Admin predeterminado
         ]);
-    
     }
 }

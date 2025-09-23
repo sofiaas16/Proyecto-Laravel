@@ -16,7 +16,7 @@ Route::get('/cards/{id}', [CardController::class, 'show']);
 
 // Rutas protegidas con Sanctum
 Route::middleware('auth:sanctum')->group(function() {
-    
+
     // Logout
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -27,17 +27,14 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::middleware('checkRole:usuario')->get('/usuario', fn() => response()->json(['message' => 'Hola, usuario normal']));
 
     // Rutas solo para admins
-// Rutas solo para admins
-Route::middleware('checkRole:admin')->group(function() {
-    Route::get('/admin', [AdminController::class, 'index']);
-    Route::post('/cards', [CardController::class, 'store']);
-    Route::put('/cards/{id}', [CardController::class, 'update']);
-    Route::delete('/cards/{id}', [CardController::class, 'destroy']);
+    Route::middleware('checkRole:admin')->group(function() {
+        Route::get('/admin', [AdminController::class, 'index']);
+        Route::post('/cards', [CardController::class, 'store']);
+        Route::put('/cards/{id}', [CardController::class, 'update']);
+        Route::delete('/cards/{id}', [CardController::class, 'destroy']);
 
-});
+        // aquí mismo metes el registerAdmin:
+        Route::post('/admin/register', [AdminController::class, 'registerAdmin']);
+    });
 
-});
-
-Route::middleware(['auth:sanctum', 'checkRole:admin'])->group(function() {
-    Route::post('/admin/register', [AdminController::class, 'registerAdmin']);
 });

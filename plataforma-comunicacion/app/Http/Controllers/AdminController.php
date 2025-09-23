@@ -8,27 +8,31 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    // Registrar un nuevo administrador
     public function registerAdmin(Request $request)
     {
-        // Validar datos
+        // Valida datos de entrada
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+            'password' => 'required|string|min:8'
         ]);
-
-        // Crear admin
+    
+        // Crea el nuevo admin
         $admin = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role_id' => 1, // asumimos 1 = admin
+            'password' => Hash::make($request->password),
+            'is_admin' => true,
         ]);
-
+    
+        // Genera token Sanctum
+        $token = $admin->createToken('AdminToken')->plainTextToken;
+    
         return response()->json([
+            'message' => 'Nuevo administrador creado exitosamente',
             'admin' => $admin,
-            'message' => 'Administrador registrado correctamente'
+            'token' => $token
         ], 201);
     }
+    
 }

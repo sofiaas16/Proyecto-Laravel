@@ -68,33 +68,6 @@ class AuthController extends Controller
             'token' => $token
         ]);
     }
-// Registro por admin
-public function registerAdmin(Request $request) {
-    // Validación
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:6',
-        'role_id' => 'required|in:1,2', // 1 = admin, 2 = usuario
-    ]);
-
-    // Solo admin puede crear
-    if ($request->user()->role_id != 1) {
-        return response()->json(['error' => 'No tienes permisos para hacer esto'], 403);
-    }
-
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => bcrypt($request->password),
-        'role_id' => $request->role_id,
-    ]);
-
-    return response()->json([
-        'user' => $user,
-        'message' => 'Usuario creado correctamente por el admin'
-    ], 201);
-}
 
 // Logout
 public function logout(Request $request)
@@ -102,7 +75,7 @@ public function logout(Request $request)
     // Elimina el token actual
     $request->user()->currentAccessToken()->delete();
 
-    return response()->json(['message' => 'Logged out successfully']);
+    return response()->json(['message' => 'Logout ']);
 }
 
 }
