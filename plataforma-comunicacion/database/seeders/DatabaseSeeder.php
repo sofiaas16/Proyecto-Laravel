@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,    // Usuarios normales
             CardSeeder::class,    // Tarjetas
             AdminSeeder::class,   // Admin predeterminado
+            LeccionSeeder::class, // Leccion 
         ]);
     }
 }

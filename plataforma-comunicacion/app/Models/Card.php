@@ -9,7 +9,6 @@ class Card extends Model
 {
     use HasFactory;
 
-    // Campos que se pueden asignar masivamente
     protected $fillable = [
         'uuid',
         'image',
@@ -19,7 +18,6 @@ class Card extends Model
         'method',
     ];
 
-    // Si quieres, puedes agregar casting de JSON para translations y audio_files
     protected $casts = [
         'translations' => 'array',
         'audio_files' => 'array',

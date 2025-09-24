@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Strategies\CardFilters\Card as CardFilterStrategy;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCardRequest;
 use Illuminate\Support\Str;
+use App\Services\CardFilterService;
 
 class CardController extends Controller
 {
     // Listar todas las tarjetas
-    public function index()
+    public function index(Request $request, CardFilterService $filterService)
     {
-        $cards = Card::all();
-        return response()->json($cards);
+        $query = Card::query();
+        $query = $filterService->applyFilters($query, $request->all());
+    
+        return response()->json($query->get());
     }
 
     // Mostrar tarjeta específica
