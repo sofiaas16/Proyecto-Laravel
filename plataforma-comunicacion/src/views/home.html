@@ -3,13 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Home - Plataforma Inclusiva</title>
+        <title>🌍 Plataforma Interactiva de Comunicación y Aprendizaje</title>
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body
         class="bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 min-h-screen flex flex-col"
     >
-   
         <nav
             class="bg-blue-600 text-white px-6 py-4 flex items-center justify-between shadow-lg"
         >
@@ -21,225 +20,244 @@
                 </div>
                 <span class="font-bold text-lg">Plataforma Inclusiva</span>
             </div>
+
+            <div class="hidden md:flex space-x-6">
+                <button
+                    onclick="showSection('home')"
+                    class="hover:text-blue-200 transition-colors"
+                >
+                    Inicio
+                </button>
+                <button
+                    onclick="showSection('disorders')"
+                    class="hover:text-blue-200 transition-colors"
+                >
+                    Lecciones
+                </button>
+                <button
+                    onclick="showSection('caa')"
+                    class="hover:text-blue-200 transition-colors"
+                ></button>
+                <button
+                    onclick="showSection('resources')"
+                    class="hover:text-blue-200 transition-colors"
+                >
+                    Recursos
+                </button>
+                <button
+                    onclick="showSection('contact')"
+                    class="hover:text-blue-200 transition-colors"
+                >
+                    Contacto
+                </button>
+            </div>
         </nav>
 
-        <main class="flex-1 p-8 space-y-16">
-          
-            <section class="text-center max-w-3xl mx-auto">
-                <h1 class="text-4xl font-bold text-gray-800 mb-4">
+        <main class="flex-1 p-8 space-y-12">
+            <section id="home" class="text-center space-y-6">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
                     🌍 Plataforma Interactiva de Comunicación y Aprendizaje
                 </h1>
-                <p class="text-gray-700 text-lg leading-relaxed">
-                    Nuestra plataforma está diseñada para acompañar a
-                    <strong
-                        >niños, jóvenes y adultos con trastornos del lenguaje en
-                        Colombia</strong
-                    >. Creemos en la inclusión, la autonomía y el derecho de
-                    todas las personas a comunicarse y ser escuchadas.
-                </p>
-                <p class="text-gray-700 text-lg mt-4">
-                    Dirigida a
-                    <strong>padres, cuidadores, docentes y terapeutas</strong>,
-                    ofrecemos recursos accesibles, interactivos y fáciles de
-                    usar.
-                </p>
+                <div
+                    class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg"
+                >
+                    <h2 class="text-2xl font-bold text-blue-600 mb-4">
+                        Bienvenida
+                    </h2>
+                    <p class="text-gray-700 text-lg leading-relaxed">
+                        Nuestra plataforma está diseñada para acompañar a niños,
+                        jóvenes y adultos con trastornos del lenguaje en
+                        Colombia. Creemos en una educación inclusiva, en la
+                        autonomía y en el derecho de todas las personas a
+                        comunicarse y ser escuchadas. Está dirigida a padres,
+                        cuidadores, docentes y terapeutas, ofreciendo recursos
+                        accesibles, interactivos y fáciles de usar.
+                    </p>
+                </div>
             </section>
 
-            <section>
-                <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">
+            <section id="disorders">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
                     🌟 Trastornos más comunes
                 </h2>
                 <div
-                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                 >
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                        onclick="showDisorderInfo('tea')"
+                    >
                         <h3 class="text-lg font-bold text-blue-600 mb-2">
-                            Trastorno del Espectro Autista (TEA)
+                            🔹 TEA
                         </h3>
                         <p class="text-gray-700 text-sm">
                             Dificulta la comunicación social y el entendimiento
-                            de gestos o expresiones. Con apoyos visuales y
-                            auditivos se logra mejorar la interacción diaria.
+                            de gestos o expresiones. Con apoyos visuales,
+                            pictogramas y audios se logra mejorar la interacción
+                            diaria.
                         </p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                        onclick="showDisorderInfo('afasia')"
+                    >
                         <h3 class="text-lg font-bold text-green-600 mb-2">
-                            Afasia
+                            🔹 Afasia
                         </h3>
                         <p class="text-gray-700 text-sm">
-                            Aparece tras una lesión cerebral. Afecta la
-                            capacidad de hablar, comprender, leer o escribir. El
-                            uso de símbolos y práctica guiada facilita la
+                            Suele aparecer después de un accidente
+                            cerebrovascular o lesión cerebral. Afecta la
+                            capacidad de hablar, comprender, leer o escribir. La
+                            práctica guiada y el uso de símbolos facilitan la
                             recuperación.
                         </p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                        onclick="showDisorderInfo('disartria')"
+                    >
                         <h3 class="text-lg font-bold text-yellow-600 mb-2">
-                            Disartria
+                            🔹 Disartria
                         </h3>
                         <p class="text-gray-700 text-sm">
                             Provocada por daños neurológicos, afecta la
-                            articulación del habla. Los ejercicios de
-                            pronunciación y apoyos auditivos mejoran la
-                            comunicación.
+                            articulación del habla. El apoyo auditivo y los
+                            ejercicios de pronunciación ayudan a que la persona
+                            sea más comprendida.
                         </p>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                        onclick="showDisorderInfo('otros')"
+                    >
                         <h3 class="text-lg font-bold text-red-600 mb-2">
-                            Otros Trastornos
+                            🔹 Otros trastornos
                         </h3>
-                        <ul class="list-disc list-inside text-gray-700 text-sm">
-                            <li>
-                                <strong>Dislalia:</strong> errores de
-                                pronunciación.
-                            </li>
-                            <li>
-                                <strong>Apraxia del habla:</strong> dificultad
-                                para coordinar movimientos del habla.
-                            </li>
-                            <li>
-                                <strong
-                                    >Síndromes genéticos o neurológicos:</strong
-                                >
-                                alteraciones en comprensión y lenguaje.
-                            </li>
-                        </ul>
+                        <p class="text-gray-700 text-sm">
+                            Dislalia: errores en la pronunciación de sonidos.
+                            Apraxia del habla: dificultad para planificar y
+                            coordinar los movimientos del habla. Síndromes
+                            genéticos o neurológicos que afectan el lenguaje y
+                            la comunicación.
+                        </p>
                     </div>
                 </div>
             </section>
 
-            <!-- CAA -->
-            <section
-                class="bg-white p-8 rounded-xl shadow-lg max-w-5xl mx-auto"
-            >
-                <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
+            <section id="caa" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
                     💡 ¿Por qué la Comunicación Aumentativa y Alternativa (CAA)?
                 </h2>
-                <p class="text-gray-700 mb-6 text-lg text-center">
-                    La <strong>CAA</strong> ofrece
-                    <span class="text-blue-600 font-semibold"
-                        >tarjetas visuales, pictogramas, audios y tecnología
-                        accesible</span
+                <p class="text-gray-700 text-lg mb-6 text-center">
+                    La CAA ofrece tarjetas visuales, pictogramas, audios y
+                    tecnología accesible que complementan el lenguaje verbal.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="text-center p-4">
+                        <div class="text-4xl mb-2">👶</div>
+                        <p class="text-gray-700">
+                            ✔️ Un niño puede expresar que tiene hambre señalando
+                            un pictograma.
+                        </p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="text-4xl mb-2">👨</div>
+                        <p class="text-gray-700">
+                            ✔️ Un adulto con afasia puede recuperar
+                            independencia usando un tablero digital.
+                        </p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="text-4xl mb-2">🎓</div>
+                        <p class="text-gray-700">
+                            ✔️ Un estudiante con TEA puede participar en clase
+                            con apoyos visuales.
+                        </p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button
+                        onclick="demonstrateCAA()"
+                        class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors"
                     >
-                    que complementan el lenguaje verbal.
-                </p>
-                <div class="grid md:grid-cols-3 gap-6 text-sm text-gray-700">
-                    <div class="bg-blue-50 p-4 rounded-lg">
-                        ✔️ Un niño puede expresar que tiene hambre señalando un
-                        pictograma.
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg">
-                        ✔️ Un adulto con afasia puede recuperar independencia
-                        usando un tablero digital.
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg">
-                        ✔️ Un estudiante con TEA puede participar en clase con
-                        apoyos visuales.
-                    </div>
-                </div>
-                <p class="text-gray-700 text-center mt-6">
-                    La CAA no reemplaza el habla,
-                    <strong
-                        >la potencia y abre caminos hacia la inclusión</strong
-                    >.
-                </p>
-            </section>
-
-            <section>
-                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
-                    🚀 Cómo ayuda nuestra plataforma
-                </h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
-                        <h3 class="font-bold text-blue-600 mb-2">
-                            Lecciones interactivas
-                        </h3>
-                        <p class="text-gray-700 text-sm">
-                            Cada usuario aprende a su ritmo con materiales
-                            visuales y auditivos adaptados.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
-                        <h3 class="font-bold text-green-600 mb-2">
-                            Biblioteca de pictogramas
-                        </h3>
-                        <p class="text-gray-700 text-sm">
-                            Recursos para expresar emociones, necesidades e
-                            ideas.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
-                        <h3 class="font-bold text-yellow-600 mb-2">
-                            Soporte multilenguaje
-                        </h3>
-                        <p class="text-gray-700 text-sm">
-                            Disponible en español, inglés y lengua de señas
-                            colombiana.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
-                        <h3 class="font-bold text-red-600 mb-2">
-                            Panel para terapeutas
-                        </h3>
-                        <p class="text-gray-700 text-sm">
-                            Seguimiento del progreso y estrategias de apoyo
-                            personalizadas.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg">
-                        <h3 class="font-bold text-purple-600 mb-2">
-                            Comunidad y foros
-                        </h3>
-                        <p class="text-gray-700 text-sm">
-                            Espacio de encuentro para compartir experiencias y
-                            buenas prácticas.
-                        </p>
-                    </div>
+                        🚀 Demostrar CAA
+                    </button>
                 </div>
             </section>
 
-
-            <section
-                class="bg-blue-50 p-8 rounded-xl shadow-lg max-w-4xl mx-auto"
-            >
+            <section id="contact" class="bg-white p-8 rounded-xl shadow-lg">
                 <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
-                    💬 Testimonios
+                    📞 Contacto y Apoyo
                 </h2>
-                <div class="space-y-6 text-gray-700 text-lg">
-                    <p>
-                        <em
-                            >"Mi hijo con TEA ahora puede pedir lo que necesita
-                            sin frustración. Esta plataforma ha sido una
-                            bendición para nuestra familia."</em
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-600 mb-4">
+                            ¿Necesitas ayuda?
+                        </h3>
+                        <p class="text-gray-700 mb-4">
+                            Nuestro equipo está aquí para apoyarte en el proceso
+                            de comunicación inclusiva.
+                        </p>
+                        <div class="space-y-2">
+                            <p class="text-gray-700">
+                                📧 Email: info@plataformainclusiva.co
+                            </p>
+                            <p class="text-gray-700">
+                                📱 WhatsApp: +57 300 123 4567
+                            </p>
+                            <p class="text-gray-700">
+                                🌐 Web: www.plataformainclusiva.co
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <button
+                            onclick="showContact()"
+                            class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors mb-4"
                         >
-                        – Madre de usuario.
-                    </p>
-                    <p>
-                        <em
-                            >"Como terapeuta, me ha permitido organizar mejor
-                            mis sesiones y motivar a mis pacientes."</em
+                            Solicitar Consulta
+                        </button>
+                        <a
+                            href="https://www.facebook.com/share/g/1JKnoyvTxE/"
+                            target="_blank"
+                            class="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors mb-4 text-center block"
                         >
-                        – Fonoaudióloga.
-                    </p>
+                            Unirse a la Comunidad
+                        </a>
+                    </div>
                 </div>
             </section>
 
             <section class="text-center">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">
-                    ✨ Súmate a la inclusión
-                </h2>
-                <p class="text-gray-700 mb-6">
-                    La comunicación no debe ser una barrera, sino un
-                    <strong>puente hacia la autonomía y la educación</strong>.
-                </p>
-                <div class="flex justify-center space-x-4">
-                    <a
-                        href="test.html"
-                        class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-green-700 transition"
-                        >Realizar Test</a
-                    >
-                </div>
+                <a
+                    href="test.html"
+                    class="bg-blue-600 text-white text-xl font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition inline-block"
+                >
+                    Realizar Test de Trastornos
+                </a>
             </section>
         </main>
+
+        <div
+            id="modal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+        >
+            <div
+                class="bg-white p-8 rounded-xl max-w-2xl max-h-96 overflow-y-auto"
+            >
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modal-title" class="text-2xl font-bold"></h3>
+                    <button
+                        onclick="closeModal()"
+                        class="text-gray-500 hover:text-gray-700 text-2xl"
+                    >
+                        &times;
+                    </button>
+                </div>
+                <div id="modal-content"></div>
+            </div>
+        </div>
+
+        <script src="../js/home.js"></script>
     </body>
 </html>
