@@ -17,7 +17,7 @@ loginForm.addEventListener("submit", (e) => {
     window.location.href = "dashboard.html"; 
   } else {
     alert("✅ Inicio de sesión exitoso");
-    window.location.href = "home.html";
+    window.location.href = "../views/home.html";
   }
 });
 
