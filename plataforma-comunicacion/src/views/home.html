@@ -9,49 +9,23 @@
     <body
         class="bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 min-h-screen flex flex-col"
     >
-        <nav
-            class="bg-blue-600 text-white px-6 py-4 flex items-center justify-between shadow-lg"
-        >
-            <div class="flex items-center space-x-3">
-                <div
-                    class="w-10 h-10 bg-white text-blue-600 rounded-full flex items-center justify-center font-bold"
-                >
-                    PI
-                </div>
-                <span class="font-bold text-lg">Plataforma Inclusiva</span>
-            </div>
-
-            <div class="hidden md:flex space-x-6">
-                <button
-                    onclick="showSection('home')"
-                    class="hover:text-blue-200 transition-colors"
-                >
-                    Inicio
-                </button>
-                <a
-                    href="../views/vocabulario.html"
-                    class="hover:text-blue-200 transition-colors inline-block"
-                >
-                    Vocabulario
-                </a>
-
-                <button
-                    onclick="showSection('caa')"
-                    class="hover:text-blue-200 transition-colors"
-                ></button>
-                <button
-                    onclick="showSection('resources')"
-                    class="hover:text-blue-200 transition-colors"
-                >
-                    Recursos
-                </button>
-                <button
-                    onclick="showSection('contact')"
-                    class="hover:text-blue-200 transition-colors"
-                >
-                    Contacto
-                </button>
-            </div>
+<!-- 🔹 Barra de navegación -->
+<nav class="bg-blue-600 text-white px-6 py-4 flex items-center justify-between shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 bg-white text-blue-600 rounded-full flex items-center justify-center font-bold">
+        PI
+      </div>
+      <span class="font-bold text-lg">Plataforma Inclusiva</span>
+    </div>
+  
+    <div class="hidden md:flex space-x-6">
+      <a href="home.html" class="hover:text-blue-200 transition-colors">Inicio</a>
+      <a href="vocabulario.html" class="hover:text-blue-200 transition-colors">Vocabulario</a>
+      <a href="#" class="hover:text-blue-200 transition-colors">Actividades</a>
+      <a href="#" class="hover:text-blue-200 transition-colors">Contacto</a>
+    </div>
+  </nav>
+  
         </nav>
 
         <main class="flex-1 p-8 space-y-12">

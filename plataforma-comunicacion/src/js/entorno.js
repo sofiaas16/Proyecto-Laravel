@@ -51,7 +51,6 @@ const vocabularyData = {
     }
 }
 
-// Abrir modal
 function openModal(word) {
     const modal = document.getElementById("modal")
     const modalTitle = document.getElementById("modal-title")
@@ -94,29 +93,24 @@ function openModal(word) {
     }
 }
 
-// Cerrar modal
 function closeModal() {
     const modal = document.getElementById("modal")
     modal.classList.add("hidden")
     document.body.style.overflow = "auto"
 }
 
-// Volver atrás
 function goBack() {
     window.history.back()
 }
 
-// Cerrar modal clic fuera
 document.getElementById("modal").addEventListener("click", function (e) {
     if (e.target === this) closeModal()
 })
 
-// Escape para cerrar
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeModal()
 })
 
-// Animaciones de entrada
 document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".vocabulary-card")
     cards.forEach((card, index) => {

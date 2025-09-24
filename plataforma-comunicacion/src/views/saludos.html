@@ -21,20 +21,49 @@
                             <i class="fas fa-comments text-2xl"></i>
                         </div>
                         <div>
-                            <h1 class="text-3xl font-bold text-gray-800">
+                            <h1
+                                id="page-title"
+                                class="text-3xl font-bold text-gray-800"
+                            >
                                 Vocabulario de Saludos
                             </h1>
-                            <p class="text-gray-600 text-lg">
+                            <p
+                                id="page-description"
+                                class="text-gray-600 text-lg"
+                            >
                                 Aprende palabras básicas de cortesía
                             </p>
                         </div>
                     </div>
-                    <button
-                        onclick="goBack()"
-                        class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-lg font-semibold transition-colors duration-200"
-                    >
-                        <i class="fas fa-arrow-left mr-2"></i>Volver
-                    </button>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="flex gap-2">
+                            <button
+                                onclick="setLanguage('es')"
+                                class="bg-gray-200 px-3 py-1 rounded"
+                            >
+                                ES
+                            </button>
+                            <button
+                                onclick="setLanguage('en')"
+                                class="bg-gray-200 px-3 py-1 rounded"
+                            >
+                                EN
+                            </button>
+                            <button
+                                onclick="setLanguage('fr')"
+                                class="bg-gray-200 px-3 py-1 rounded"
+                            >
+                                FR
+                            </button>
+                        </div>
+                        <button
+                            onclick="goBack()"
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-lg font-semibold transition-colors duration-200"
+                        >
+                            <i class="fas fa-arrow-left mr-2"></i>Volver
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
@@ -59,6 +88,7 @@
                 </div>
 
                 <div class="space-y-4">
+                    <!-- HOLA -->
                     <div
                         class="vocabulary-card bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
                         onclick="openModal('hola')"
@@ -71,7 +101,10 @@
                                     class="fas fa-hand-paper text-5xl text-yellow-600"
                                 ></i>
                             </div>
-                            <h3 class="text-3xl font-bold text-white mb-2">
+                            <h3
+                                id="card-hola"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
                                 HOLA
                             </h3>
                             <p class="text-white text-lg opacity-90">
@@ -80,6 +113,7 @@
                         </div>
                     </div>
 
+                    <!-- ADIÓS -->
                     <div
                         class="vocabulary-card bg-gradient-to-r from-purple-400 to-pink-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
                         onclick="openModal('adios')"
@@ -92,7 +126,10 @@
                                     class="fas fa-hand-peace text-5xl text-purple-600"
                                 ></i>
                             </div>
-                            <h3 class="text-3xl font-bold text-white mb-2">
+                            <h3
+                                id="card-adios"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
                                 ADIÓS
                             </h3>
                             <p class="text-white text-lg opacity-90">
@@ -101,6 +138,7 @@
                         </div>
                     </div>
 
+                    <!-- GRACIAS -->
                     <div
                         class="vocabulary-card bg-gradient-to-r from-green-400 to-teal-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
                         onclick="openModal('gracias')"
@@ -113,7 +151,10 @@
                                     class="fas fa-heart text-5xl text-green-600"
                                 ></i>
                             </div>
-                            <h3 class="text-3xl font-bold text-white mb-2">
+                            <h3
+                                id="card-gracias"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
                                 GRACIAS
                             </h3>
                             <p class="text-white text-lg opacity-90">
@@ -122,6 +163,7 @@
                         </div>
                     </div>
 
+                    <!-- POR FAVOR -->
                     <div
                         class="vocabulary-card bg-gradient-to-r from-blue-400 to-indigo-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
                         onclick="openModal('porfavor')"
@@ -134,7 +176,10 @@
                                     class="fas fa-praying-hands text-5xl text-blue-600"
                                 ></i>
                             </div>
-                            <h3 class="text-3xl font-bold text-white mb-2">
+                            <h3
+                                id="card-porfavor"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
                                 POR FAVOR
                             </h3>
                             <p class="text-white text-lg opacity-90">
@@ -143,6 +188,7 @@
                         </div>
                     </div>
 
+                    <!-- BUEN DÍA -->
                     <div
                         class="vocabulary-card bg-gradient-to-r from-red-400 to-rose-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
                         onclick="openModal('buendia')"
@@ -153,7 +199,10 @@
                             >
                                 <i class="fas fa-sun text-5xl text-red-600"></i>
                             </div>
-                            <h3 class="text-3xl font-bold text-white mb-2">
+                            <h3
+                                id="card-buendia"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
                                 BUEN DÍA
                             </h3>
                             <p class="text-white text-lg opacity-90">
@@ -165,6 +214,7 @@
             </div>
         </main>
 
+        <!-- MODAL -->
         <div
             id="modal"
             class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
@@ -173,7 +223,6 @@
                 class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
             >
                 <div class="p-6">
-                    Modal Header
                     <div class="flex justify-between items-center mb-6">
                         <h2
                             id="modal-title"
@@ -191,7 +240,13 @@
                         Content will be populated by JavaScript
                     </div>
 
-                    <div class="mt-6 flex justify-end">
+                    <div class="mt-6 flex justify-between">
+                        <button
+                            onclick="speakModal()"
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
+                        >
+                            🔊 Escuchar
+                        </button>
                         <button
                             onclick="closeModal()"
                             class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
