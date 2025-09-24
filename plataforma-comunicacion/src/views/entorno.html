@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vocabulario de Entorno Diario</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body
+        class="bg-gradient-to-br from-green-50 to-blue-50 min-h-screen font-sans"
+    >
+        <!-- Header -->
+        <header class="bg-white shadow-lg border-b-4 border-green-400">
+            <div
+                class="container mx-auto px-4 py-6 flex justify-between items-center"
+            >
+                <div class="flex items-center space-x-3">
+                    <div class="bg-green-500 text-white p-3 rounded-full">
+                        <i class="fas fa-home text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-800">
+                            Entorno Diario
+                        </h1>
+                        <p class="text-gray-600 text-lg">
+                            Aprende palabras y frases para describir tu entorno
+                        </p>
+                    </div>
+                </div>
+                <button
+                    onclick="goBack()"
+                    class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-lg font-semibold transition"
+                >
+                    <i class="fas fa-arrow-left mr-2"></i>Volver
+                </button>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main class="container mx-auto px-4 py-8">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <!-- Intro -->
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-green-400"
+                >
+                    <div class="flex items-center space-x-3 mb-3">
+                        <i
+                            class="fas fa-info-circle text-green-500 text-2xl"
+                        ></i>
+                        <h2 class="text-xl font-bold text-gray-800">
+                            ¿Cómo usar esta página?
+                        </h2>
+                    </div>
+                    <p class="text-gray-700 text-lg">
+                        Haz clic en cada tarjeta para aprender cómo hablar sobre
+                        objetos y lugares comunes en tu vida diaria, usando
+                        frases más completas.
+                    </p>
+                </div>
+
+                <!-- Cards -->
+                <div class="space-y-4">
+                    <!-- Casa -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-blue-400 to-indigo-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('casa')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-home text-5xl text-blue-600"
+                                ></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-white mb-2">
+                                CASA
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                El lugar donde vives
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Mesa -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('mesa')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-utensils text-5xl text-yellow-600"
+                                ></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-white mb-2">
+                                MESA
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                Donde comes o trabajas
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Cama -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-pink-400 to-rose-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('cama')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-bed text-5xl text-pink-600"
+                                ></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-white mb-2">
+                                CAMA
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                El lugar para descansar
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Puerta -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-green-400 to-teal-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('puerta')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-door-open text-5xl text-green-600"
+                                ></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-white mb-2">
+                                PUERTA
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                Para entrar o salir
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Escuela -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-purple-400 to-indigo-600 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('escuela')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-school text-5xl text-purple-600"
+                                ></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-white mb-2">
+                                ESCUELA
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                Donde aprendes y compartes
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal -->
+        <div
+            id="modal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
+        >
+            <div
+                class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+            >
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2
+                            id="modal-title"
+                            class="text-2xl font-bold text-gray-800"
+                        ></h2>
+                        <button
+                            onclick="closeModal()"
+                            class="text-gray-500 hover:text-gray-700 text-2xl"
+                        >
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="modal-content" class="space-y-4"></div>
+                    <div class="mt-6 flex justify-end">
+                        <button
+                            onclick="closeModal()"
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/entorno.js"></script>
+    </body>
+</html>
