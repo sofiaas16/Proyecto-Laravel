@@ -7,6 +7,8 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProgresoController;
 use App\Http\Controllers\LeccionController;
+use App\Http\Controllers\UserController;
+
 // Registro y login
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -37,6 +39,9 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/cards', [CardController::class, 'store']);
         Route::put('/cards/{id}', [CardController::class, 'update']);
         Route::delete('/cards/{id}', [CardController::class, 'destroy']);
+
+        Route::get('/users', [UserController::class, 'index']);
+        Route::get('/users/{id}', [UserController::class, 'show']);
 
         // Leccion Controller
         Route::post('/lecciones', [LeccionController::class, 'store']);
