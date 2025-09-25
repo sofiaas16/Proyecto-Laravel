@@ -17,17 +17,29 @@ class CardController extends Controller
         $query = Card::query();
         $query = $filterService->applyFilters($query, $request->all());
     
-        return response()->json($query->get());
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Lista de tarjetas obtenida correctamente',
+            'cards' => $query->get()
+        ]);
     }
 
     // Mostrar tarjeta específica
     public function show($id)
     {
         $card = Card::find($id);
-        if(!$card){
-            return response()->json(['message' => 'Card not found'], 404);
+        if (!$card) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tarjeta no encontrada'
+            ], 404);
         }
-        return response()->json($card);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tarjeta encontrada',
+            'card' => $card
+        ]);
     }
 
     // Crear tarjeta
@@ -37,30 +49,47 @@ class CardController extends Controller
         $data['uuid'] = Str::uuid();
 
         $card = Card::create($data);
-        return response()->json($card, 201);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tarjeta creada correctamente',
+            'card' => $card
+        ], 201);
     }
 
     // Actualizar tarjeta
     public function update(StoreCardRequest $request, $id)
     {
         $card = Card::find($id);
-        if(!$card){
-            return response()->json(['message' => 'Card not found'], 404);
+        if (!$card) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tarjeta no encontrada'
+            ], 404);
         }
 
         $card->update($request->validated());
-        return response()->json($card);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tarjeta actualizada correctamente',
+            'card' => $card
+        ]);
     }
 
     // Eliminar tarjeta
     public function destroy($id)
     {
         $card = Card::find($id);
-        if(!$card){
-            return response()->json(['message' => 'Card not found'], 404);
+        if (!$card) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Tarjeta no encontrada'
+            ], 404);
         }
 
         $card->delete();
-        return response()->json(['message' => 'Card deleted']);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tarjeta eliminada correctamente'
+        ]);
     }
 }

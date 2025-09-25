@@ -13,9 +13,6 @@ use App\Http\Controllers\UserController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Rutas publicas de cards
-Route::get('/cards', [CardController::class, 'index']);
-Route::get('/cards/{id}', [CardController::class, 'show']);
 
 // Rutas protegidas con Sanctum
 Route::middleware('auth:sanctum')->group(function() {
@@ -26,6 +23,10 @@ Route::middleware('auth:sanctum')->group(function() {
     // Info del usuario logueado
     Route::get('/user', fn(Request $request) => $request->user());
 
+    // Rutas publicas de cards
+    Route::get('/cards', [CardController::class, 'index']);
+    Route::get('/cards/{id}', [CardController::class, 'show']);
+
     Route::post('/progreso', [ProgresoController::class, 'guardar']);
     Route::get('/progreso', [ProgresoController::class, 'obtener']);
 
@@ -35,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function() {
     // Rutas solo para admins
     Route::middleware('checkRole:admin')->group(function() {
         Route::get('/admin', [AdminController::class, 'index']);
+
         // Card Controller
         Route::post('/cards', [CardController::class, 'store']);
         Route::put('/cards/{id}', [CardController::class, 'update']);
