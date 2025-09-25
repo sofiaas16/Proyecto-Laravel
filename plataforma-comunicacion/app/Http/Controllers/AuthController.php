@@ -9,90 +9,95 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    // Registro
+    /**
+     * Registro de usuario normal
+     */
     public function register(Request $request)
     {
-        // Valida datos de entrada
+        // Validar datos de entrada
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6'
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6'
         ]);
 
-        // Si falla la validación
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status'  => 'error',
                 'message' => 'No se pudo registrar el usuario',
-                'errors' => $validator->errors()
+                'errors'  => $validator->errors()
             ], 422);
         }
 
-        // Crea usuario normal
+        // Crear usuario con rol de usuario normal (role_id = 2)
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => 2 // usuario normal
+            'role_id'  => 2
         ]);
 
-        // Genera token
+        // Generar token personal de acceso
         $token = $user->createToken('app')->plainTextToken;
 
         return response()->json([
-            'status' => 'success',
+            'status'  => 'success',
             'message' => 'Usuario registrado exitosamente',
-            'user' => $user,
-            'token' => $token
+            'user'    => $user,
+            'token'   => $token
         ], 201);
     }
 
-    // Login
+    /**
+     * Login de usuario
+     */
     public function login(Request $request)
     {
-        // Valida los datos básicos del login (opcional, pero recomendado)
+        // Validar datos básicos del login
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required|string'
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status'  => 'error',
                 'message' => 'Datos inválidos',
-                'errors' => $validator->errors()
+                'errors'  => $validator->errors()
             ], 422);
         }
 
-        // Busca el usuario
+        // Buscar usuario por email
         $user = User::where('email', $request->email)->first();
 
-        // Credenciales incorrectas
+        // Validar credenciales
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'status' => 'error',
+                'status'  => 'error',
                 'message' => 'Credenciales inválidas'
             ], 401);
         }
 
-        // Token
+        // Generar token personal de acceso
         $token = $user->createToken('app')->plainTextToken;
 
         return response()->json([
-            'status' => 'success',
+            'status'  => 'success',
             'message' => 'Login exitoso',
-            'user' => $user,
-            'token' => $token
+            'user'    => $user,
+            'token'   => $token
         ]);
     }
 
-    // Logout
+    /**
+     * Logout de usuario autenticado
+     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'status' => 'success',
+            'status'  => 'success',
             'message' => 'Logout exitoso'
         ]);
     }
