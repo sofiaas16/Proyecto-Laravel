@@ -1,180 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Emociones - Aprende a Expresar Sentimientos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
-        body { font-family: 'Comic Neue', cursive; }
-        
-        .emotion-card {
-            transition: all 0.3s ease;
-            transform: scale(1);
-        }
-        
-        .emotion-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
-        .emotion-card.visited {
-            border: 3px solid #10b981;
-            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-        }
-        
-        .bounce-in {
-            animation: bounceIn 0.5s ease-out;
-        }
-        
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .modal-backdrop {
-            backdrop-filter: blur(4px);
-        }
-        
-        .pulse-gentle {
-            animation: pulseGentle 2s infinite;
-        }
-        
-        @keyframes pulseGentle {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Actividad 6 - Colores</title>
+  <script src="https://kit.fontawesome.com/a2d9d5a64f.js" crossorigin="anonymous"></script>
+  <script src="../js/actividad2.js" defer></script>
+  <script src="progreso.js" defer></script> <!-- aquí está completarActividad() -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-6">
-        <!-- Header -->
-        <header class="bg-purple-500 text-white p-6 rounded-lg mb-6 shadow-lg">
-            <div class="flex justify-between items-center flex-wrap gap-4">
-                <div>
-                    <h1 class="text-3xl font-bold mb-2" id="main-title">😊 Juego de Emociones</h1>
-                    <p class="text-purple-100 text-lg" id="main-subtitle">Aprende a expresar cómo te sientes</p>
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="changeLanguage('es')" class="language-btn bg-white text-purple-500 px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-50 transition-colors" data-lang="es">ES</button>
-                    <button onclick="changeLanguage('en')" class="language-btn bg-purple-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-300 transition-colors" data-lang="en">EN</button>
-                    <button onclick="changeLanguage('fr')" class="language-btn bg-purple-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-300 transition-colors" data-lang="fr">FR</button>
-                    <button onclick="goBack()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                        ← <span id="back-text">Volver</span>
-                    </button>
-                </div>
-            </div>
-        </header>
+<body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen font-sans">
 
-        <!-- Instructions -->
-        <div class="bg-blue-100 border-l-4 border-blue-400 p-4 mb-6 rounded-r-lg">
-            <div class="flex items-center">
-                <div class="text-blue-600 text-2xl mr-3">ℹ️</div>
-                <div>
-                    <p class="text-blue-800 font-semibold text-lg" id="instructions-title">¿Cómo usar esta página?</p>
-                    <p class="text-blue-700 text-base" id="instructions-text">
-                        Haz clic en cada emoción para aprender más sobre ella. Descubre cuándo usarla y cómo expresarla.
-                    </p>
-                </div>
-            </div>
-        </div>
+  <div class="max-w-4xl mx-auto p-6">
+    <!-- Encabezado -->
+    <h1 id="page-title" class="text-3xl font-bold text-center text-indigo-700 mb-2">Colores</h1>
+    <p id="page-description" class="text-center text-gray-700 mb-6">
+      Aprende a identificar y usar los colores
+    </p>
 
-        <!-- Progress -->
-        <div class="text-center mb-6">
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <p class="text-lg font-semibold text-gray-700 mb-2" id="progress-text">Progreso: <span id="progress-count">0</span>/5 emociones exploradas</p>
-                <div class="w-full bg-gray-200 rounded-full h-3">
-                    <div id="progress-bar" class="bg-purple-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Emotions Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" id="emotions-grid">
-            <!-- Emotions will be generated by JavaScript -->
-        </div>
-
-        <!-- Emotion Detail Modal -->
-        <div id="emotion-modal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center hidden z-50">
-            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-2xl mx-4 max-h-[90vh] overflow-y-auto bounce-in">
-                <div class="text-center mb-6">
-                    <div class="text-8xl mb-4" id="modal-icon">😊</div>
-                    <h2 class="text-3xl font-bold mb-2" id="modal-title">Feliz</h2>
-                    <p class="text-gray-600 text-lg" id="modal-description">Descripción de la emoción</p>
-                </div>
-                
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="situations-title">¿Cuándo la usas?</h3>
-                        <ul class="list-disc list-inside space-y-2 text-gray-700" id="situations-list">
-                            <!-- Situations will be populated by JavaScript -->
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="examples-title">Ejemplos de frases</h3>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <ul class="space-y-2 text-gray-700" id="examples-list">
-                                <!-- Examples will be populated by JavaScript -->
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="advice-title">Consejo práctico</h3>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
-                            <p class="text-gray-700" id="advice-text">Consejo práctico aquí</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex space-x-4 mt-8">
-                    <button onclick="speakEmotion()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center">
-                        🔊 <span id="listen-text" class="ml-2">Escuchar</span>
-                    </button>
-                    <button onclick="closeEmotionModal()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                        <span id="close-text">Cerrar</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Success Modal -->
-        <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-            <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md mx-4 bounce-in">
-                <div class="text-6xl mb-4">🎉</div>
-                <h2 class="text-3xl font-bold text-green-600 mb-4" id="success-title">¡Felicitaciones!</h2>
-                <p class="text-gray-700 text-lg mb-6" id="success-message">
-                    Has explorado todas las emociones. ¡Excelente trabajo aprendiendo a expresar sentimientos!
-                </p>
-                <div class="flex space-x-4">
-                    <button onclick="resetProgress()" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                        <span id="explore-again-text">Explorar de nuevo</span>
-                    </button>
-                    <button onclick="continueToActivities()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                        <span id="continue-text">Continuar</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+    <!-- Selector de idioma -->
+    <div class="flex justify-center gap-3 mb-6">
+      <button onclick="setLanguage('es')" class="px-3 py-1 bg-indigo-600 text-white rounded">ES</button>
+      <button onclick="setLanguage('en')" class="px-3 py-1 bg-green-600 text-white rounded">EN</button>
+      <button onclick="setLanguage('fr')" class="px-3 py-1 bg-pink-600 text-white rounded">FR</button>
     </div>
-    <script src="../js/actividad2.js"></script>
+
+    <!-- Info -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-indigo-400 mb-8">
+      <h2 class="info-title text-xl font-semibold text-indigo-700 mb-2">¿Cómo usar esta página?</h2>
+      <p class="info-text text-gray-600">
+        Haz clic en cada tarjeta para aprender cómo identificar y describir cosas usando colores en frases completas.
+      </p>
+    </div>
+
+    <!-- Tarjetas de colores -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div onclick="openModal('azul')" class="vocabulary-card bg-blue-100 rounded-xl p-6 cursor-pointer shadow hover:scale-105 transition">
+        <h3 id="card-azul" class="text-xl font-bold text-blue-600">AZUL</h3>
+        <p class="azul-desc text-gray-600">El color del cielo</p>
+      </div>
+
+      <div onclick="openModal('rojo')" class="vocabulary-card bg-red-100 rounded-xl p-6 cursor-pointer shadow hover:scale-105 transition">
+        <h3 id="card-rojo" class="text-xl font-bold text-red-600">ROJO</h3>
+        <p class="rojo-desc text-gray-600">El color de una manzana</p>
+      </div>
+
+      <div onclick="openModal('verde')" class="vocabulary-card bg-green-100 rounded-xl p-6 cursor-pointer shadow hover:scale-105 transition">
+        <h3 id="card-verde" class="text-xl font-bold text-green-600">VERDE</h3>
+        <p class="verde-desc text-gray-600">El color de la naturaleza</p>
+      </div>
+
+      <div onclick="openModal('amarillo')" class="vocabulary-card bg-yellow-100 rounded-xl p-6 cursor-pointer shadow hover:scale-105 transition">
+        <h3 id="card-amarillo" class="text-xl font-bold text-yellow-500">AMARILLO</h3>
+        <p class="amarillo-desc text-gray-600">El color del sol</p>
+      </div>
+
+      <div onclick="openModal('negro')" class="vocabulary-card bg-gray-800 rounded-xl p-6 cursor-pointer shadow hover:scale-105 transition">
+        <h3 id="card-negro" class="text-xl font-bold text-white">NEGRO</h3>
+        <p class="negro-desc text-gray-200">El color de la noche</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-lg p-6 max-w-lg w-full relative">
+      <h2 id="modal-title" class="text-2xl font-bold text-center text-indigo-700 mb-4"></h2>
+      <div id="modal-content" class="text-gray-700 space-y-4"></div>
+
+      <div class="flex justify-between items-center mt-6">
+        <button onclick="speakModal()" class="px-4 py-2 bg-indigo-600 text-white rounded shadow">🔊</button>
+        <button onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de felicitación -->
+  <div id="success-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
+      <h2 class="text-3xl font-bold text-green-600 mb-4">¡Felicitaciones!</h2>
+      <p class="text-gray-700 mb-6">Has aprendido todos los colores.</p>
+      <button onclick="closeSuccessModal()" class="px-6 py-3 bg-green-600 text-white rounded shadow">
+        Continuar
+      </button>
+    </div>
+  </div>
 </body>
 </html>
