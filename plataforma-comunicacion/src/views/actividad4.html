@@ -1,180 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Emociones - Aprende a Expresar Sentimientos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
-        body { font-family: 'Comic Neue', cursive; }
-        
-        .emotion-card {
-            transition: all 0.3s ease;
-            transform: scale(1);
-        }
-        
-        .emotion-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
-        .emotion-card.visited {
-            border: 3px solid #10b981;
-            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-        }
-        
-        .bounce-in {
-            animation: bounceIn 0.5s ease-out;
-        }
-        
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .modal-backdrop {
-            backdrop-filter: blur(4px);
-        }
-        
-        .pulse-gentle {
-            animation: pulseGentle 2s infinite;
-        }
-        
-        @keyframes pulseGentle {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad 8 - Necesidades Básicas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .dragging { opacity: 0.5; transform: rotate(5deg); }
+    .drop-zone-active { background-color: #dbeafe; border-color: #3b82f6; }
+    .drop-zone-correct { background-color: #dcfce7; border-color: #16a34a; }
+    .drop-zone-incorrect { background-color: #fef2f2; border-color: #dc2626; }
+    .drag-item { transition: all 0.3s ease; }
+    .drag-item:hover { transform: scale(1.05); }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-6">
-        <!-- Header -->
-        <header class="bg-purple-500 text-white p-6 rounded-lg mb-6 shadow-lg">
-            <div class="flex justify-between items-center flex-wrap gap-4">
-                <div>
-                    <h1 class="text-3xl font-bold mb-2" id="main-title">😊 Juego de Emociones</h1>
-                    <p class="text-purple-100 text-lg" id="main-subtitle">Aprende a expresar cómo te sientes</p>
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="changeLanguage('es')" class="language-btn bg-white text-purple-500 px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-50 transition-colors" data-lang="es">ES</button>
-                    <button onclick="changeLanguage('en')" class="language-btn bg-purple-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-300 transition-colors" data-lang="en">EN</button>
-                    <button onclick="changeLanguage('fr')" class="language-btn bg-purple-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-300 transition-colors" data-lang="fr">FR</button>
-                    <button onclick="goBack()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                        ← <span id="back-text">Volver</span>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Instructions -->
-        <div class="bg-blue-100 border-l-4 border-blue-400 p-4 mb-6 rounded-r-lg">
-            <div class="flex items-center">
-                <div class="text-blue-600 text-2xl mr-3">ℹ️</div>
-                <div>
-                    <p class="text-blue-800 font-semibold text-lg" id="instructions-title">¿Cómo usar esta página?</p>
-                    <p class="text-blue-700 text-base" id="instructions-text">
-                        Haz clic en cada emoción para aprender más sobre ella. Descubre cuándo usarla y cómo expresarla.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Progress -->
-        <div class="text-center mb-6">
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <p class="text-lg font-semibold text-gray-700 mb-2" id="progress-text">Progreso: <span id="progress-count">0</span>/5 emociones exploradas</p>
-                <div class="w-full bg-gray-200 rounded-full h-3">
-                    <div id="progress-bar" class="bg-purple-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Emotions Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" id="emotions-grid">
-            <!-- Emotions will be generated by JavaScript -->
-        </div>
-
-        <!-- Emotion Detail Modal -->
-        <div id="emotion-modal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center hidden z-50">
-            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-2xl mx-4 max-h-[90vh] overflow-y-auto bounce-in">
-                <div class="text-center mb-6">
-                    <div class="text-8xl mb-4" id="modal-icon">😊</div>
-                    <h2 class="text-3xl font-bold mb-2" id="modal-title">Feliz</h2>
-                    <p class="text-gray-600 text-lg" id="modal-description">Descripción de la emoción</p>
-                </div>
-                
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="situations-title">¿Cuándo la usas?</h3>
-                        <ul class="list-disc list-inside space-y-2 text-gray-700" id="situations-list">
-                            <!-- Situations will be populated by JavaScript -->
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="examples-title">Ejemplos de frases</h3>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <ul class="space-y-2 text-gray-700" id="examples-list">
-                                <!-- Examples will be populated by JavaScript -->
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="advice-title">Consejo práctico</h3>
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
-                            <p class="text-gray-700" id="advice-text">Consejo práctico aquí</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex space-x-4 mt-8">
-                    <button onclick="speakEmotion()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center">
-                        🔊 <span id="listen-text" class="ml-2">Escuchar</span>
-                    </button>
-                    <button onclick="closeEmotionModal()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                        <span id="close-text">Cerrar</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Success Modal -->
-        <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-            <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md mx-4 bounce-in">
-                <div class="text-6xl mb-4">🎉</div>
-                <h2 class="text-3xl font-bold text-green-600 mb-4" id="success-title">¡Felicitaciones!</h2>
-                <p class="text-gray-700 text-lg mb-6" id="success-message">
-                    Has explorado todas las emociones. ¡Excelente trabajo aprendiendo a expresar sentimientos!
-                </p>
-                <div class="flex space-x-4">
-                    <button onclick="resetProgress()" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                        <span id="explore-again-text">Explorar de nuevo</span>
-                    </button>
-                    <button onclick="continueToActivities()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
-                        <span id="continue-text">Continuar</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+<body class="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen p-4">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">Necesidades Básicas</h1>
+      <p class="text-xl text-gray-600">Arrastra cada imagen a su categoría correcta</p>
     </div>
-    <script src="../js/actividad4.js"></script>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Draggable Images Section -->
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Imágenes</h2>
+        <div class="grid grid-cols-2 gap-4" id="images-container">
+
+          <!-- Baño -->
+          <div class="drag-item bg-blue-100 rounded-xl p-4 cursor-move border-2 border-blue-200 text-center" 
+               draggable="true" data-type="bathroom">
+            <img src="../baño.jpg" alt="Ir al baño" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Baño</p>
+          </div>
+
+          <!-- Agua -->
+          <div class="drag-item bg-cyan-100 rounded-xl p-4 cursor-move border-2 border-cyan-200 text-center" 
+               draggable="true" data-type="water">
+            <img src="../agua.jpg" alt="Beber agua" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Agua</p>
+          </div>
+
+          <!-- Dormir -->
+          <div class="drag-item bg-purple-100 rounded-xl p-4 cursor-move border-2 border-purple-200 text-center" 
+               draggable="true" data-type="sleep">
+            <img src="../durmiendo.jpg" alt="Dormir" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Dormir</p>
+          </div>
+
+          <!-- Pedir ayuda -->
+          <div class="drag-item bg-orange-100 rounded-xl p-4 cursor-move border-2 border-orange-200 text-center" 
+               draggable="true" data-type="help">
+            <img src="../Ayuda.webp" alt="Pedir ayuda" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Pedir ayuda</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Drop Zones Section -->
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Categorías</h2>
+        <div class="space-y-4" id="drop-zones-container">
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="bathroom">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Ir al baño</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="water">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Beber agua</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="sleep">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Dormir</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="help">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Pedir ayuda</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mt-8 bg-white rounded-2xl shadow-lg p-6">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-lg font-medium text-gray-700">Progreso</span>
+        <span class="text-lg font-medium text-gray-700" id="progress-text">0/4</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-4">
+        <div class="bg-gradient-to-r from-green-400 to-green-600 h-4 rounded-full transition-all duration-500" 
+             id="progress-bar" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Congratulations Modal -->
+  <div id="congratulations-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-4 text-center">
+      <div class="text-6xl mb-4">🎉</div>
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">¡Felicitaciones!</h2>
+      <p class="text-xl text-gray-600 mb-6">¡Completaste la actividad!</p>
+      <p class="text-lg text-gray-500 mb-6">Has aprendido sobre las necesidades básicas</p>
+      <button id="close-modal" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-3 rounded-xl text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <script src="../js/actividad4.js"></script>
 </body>
 </html>
