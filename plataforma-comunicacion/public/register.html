@@ -129,10 +129,10 @@
   <script>
     const form = document.getElementById('registerForm');
     const message = document.getElementById('message');
-
+  
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
+  
       const formData = new FormData(form);
       const data = {
         name: formData.get('name'),
@@ -140,18 +140,18 @@
         password: formData.get('password'),
         password_confirmation: formData.get('password_confirmation')
       };
-
+  
       try {
-        const response = await fetch('http://127.0.0.1:8080/api/register', {
+        const response = await fetch('/api/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(data)
         });
-
+  
         const result = await response.json();
-
+  
         if (response.ok) {
           message.style.color = 'green';
           message.textContent = '¡Registro exitoso!';
@@ -165,10 +165,12 @@
           message.textContent = errorMsg;
         }
       } catch (error) {
+        // mostramos mensaje + el error original
         message.style.color = 'red';
-        message.textContent = 'No se pudo conectar con el servidor';
+        message.textContent = `No se pudo conectar con el servidor: ${error.message}`;
       }
     });
   </script>
+  
 </body>
 </html>
