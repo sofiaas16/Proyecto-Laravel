@@ -1,173 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Juego de Memoria - Vocabulario de Saludos</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <style>
-            .card-flip {
-                transform-style: preserve-3d;
-                transition: transform 0.6s;
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juego de Memoria - Vocabulario de Saludos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card-flip {
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .card-flip.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front,
+        .card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .bounce-in {
+            animation: bounceIn 0.5s ease-out;
+        }
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
             }
-            .card-flip.flipped {
-                transform: rotateY(180deg);
+            50% {
+                transform: scale(1.05);
             }
-            .card-front,
-            .card-back {
-                backface-visibility: hidden;
-                position: absolute;
-                width: 100%;
-                height: 100%;
+            70% {
+                transform: scale(0.9);
             }
-            .card-back {
-                transform: rotateY(180deg);
+            100% {
+                transform: scale(1);
+                opacity: 1;
             }
-            .bounce-in {
-                animation: bounceIn 0.5s ease-out;
+        }
+        .pulse-success {
+            animation: pulseSuccess 0.6s ease-in-out;
+        }
+        @keyframes pulseSuccess {
+            0%, 100% {
+                transform: scale(1);
             }
-            @keyframes bounceIn {
-                0% {
-                    transform: scale(0.3);
-                    opacity: 0;
-                }
-                50% {
-                    transform: scale(1.05);
-                }
-                70% {
-                    transform: scale(0.9);
-                }
-                100% {
-                    transform: scale(1);
-                    opacity: 1;
-                }
+            50% {
+                transform: scale(1.05);
             }
-            .pulse-success {
-                animation: pulseSuccess 0.6s ease-in-out;
-            }
-            @keyframes pulseSuccess {
-                0%,
-                100% {
-                    transform: scale(1);
-                }
-                50% {
-                    transform: scale(1.05);
-                }
-            }
-        </style>
-    </head>
-    <body class="bg-gray-100 min-h-screen">
-        <div class="container mx-auto px-4 py-6">
-            <header
-                class="bg-blue-500 text-white p-6 rounded-lg mb-6 shadow-lg"
-            >
-                <div class="flex justify-between items-center flex-wrap gap-4">
-                    <div>
-                        <h1 class="text-3xl font-bold mb-2">
-                            🗣️ Vocabulario de Saludos
-                        </h1>
-                        <p class="text-blue-100 text-lg">
-                            Aprende palabras básicas de cortesía
-                        </p>
-                    </div>
-                    <div class="flex gap-3">
-                        <button
-                            onclick="changeLanguage('es')"
-                            class="language-btn bg-white text-blue-500 px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors"
-                            data-lang="es"
-                        >
-                            ES
-                        </button>
-                        <button
-                            onclick="changeLanguage('en')"
-                            class="language-btn bg-blue-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-300 transition-colors"
-                            data-lang="en"
-                        >
-                            EN
-                        </button>
-                        <button
-                            onclick="changeLanguage('fr')"
-                            class="language-btn bg-blue-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-300 transition-colors"
-                            data-lang="fr"
-                        >
-                            FR
-                        </button>
-                    </div>
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Header -->
+        <header class="bg-blue-500 text-white p-6 rounded-lg mb-6 shadow-lg">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">🗣️ Vocabulario de Saludos</h1>
+                    <p class="text-blue-100 text-lg">Aprende palabras básicas de cortesía</p>
                 </div>
-            </header>
-
-            <div
-                class="bg-green-100 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg"
-            >
-                <div class="flex items-center">
-                    <div class="text-green-600 text-2xl mr-3">ℹ️</div>
-                    <div>
-                        <p
-                            class="text-green-800 font-semibold text-lg"
-                            id="instructions"
-                        >
-                            ¿Cómo usar esta página?
-                        </p>
-                        <p
-                            class="text-green-700 text-base"
-                            id="instructions-text"
-                        >
-                            Haz clic en cada tarjeta para aprender más sobre
-                            cómo usar estas palabras importantes en tu día a
-                            día.
-                        </p>
-                    </div>
+                <div class="flex gap-3">
+                    <button onclick="changeLanguage('es')" class="language-btn bg-white text-blue-500 px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors" data-lang="es">ES</button>
+                    <button onclick="changeLanguage('en')" class="language-btn bg-blue-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-300 transition-colors" data-lang="en">EN</button>
+                    <button onclick="changeLanguage('fr')" class="language-btn bg-blue-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-300 transition-colors" data-lang="fr">FR</button>
                 </div>
             </div>
+        </header>
 
-            <div class="text-center mb-6">
-                <div class="flex justify-center items-center gap-4 mb-4">
-                    <span
-                        class="text-2xl font-bold text-gray-700"
-                        id="score-text"
-                        >Pares encontrados: <span id="score">0</span>/6</span
-                    >
-                    <button
-                        onclick="resetGame()"
-                        class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition-colors"
-                    >
-                        🔄 <span id="reset-text">Reiniciar</span>
-                    </button>
-                </div>
-            </div>
-
-            <div
-                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto"
-                id="game-board"
-            ></div>
-
-            <div
-                id="success-modal"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
-            >
-                <div
-                    class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md mx-4 bounce-in"
-                >
-                    <div class="text-6xl mb-4">🎉</div>
-                    <h2
-                        class="text-3xl font-bold text-green-600 mb-4"
-                        id="success-title"
-                    >
-                        ¡Felicitaciones!
-                    </h2>
-                    <p class="text-gray-700 text-lg mb-6" id="success-message">
-                        Has completado el juego de memoria. ¡Excelente trabajo
-                        aprendiendo vocabulario!
+        <!-- Info -->
+        <div class="bg-green-100 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg">
+            <div class="flex items-center">
+                <div class="text-green-600 text-2xl mr-3">ℹ️</div>
+                <div>
+                    <p class="text-green-800 font-semibold text-lg" id="instructions">¿Cómo usar esta página?</p>
+                    <p class="text-green-700 text-base" id="instructions-text">
+                        Haz clic en cada tarjeta para aprender más sobre cómo usar estas palabras importantes en tu día a día.
                     </p>
-                    <button
-                        onclick="closeModal()"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors"
-                    >
-                        <span id="close-text">Cerrar</span>
-                    </button>
                 </div>
             </div>
         </div>
-        <script src="../js/actividad1.js"></script>
-    </body>
+
+        <!-- Score + Reset -->
+        <div class="text-center mb-6">
+            <div class="flex justify-center items-center gap-4 mb-4">
+                <span class="text-2xl font-bold text-gray-700" id="score-text">Pares encontrados: <span id="score">0</span>/6</span>
+                <button onclick="resetGame()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition-colors">
+                    🔄 <span id="reset-text">Reiniciar</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Board -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto" id="game-board"></div>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md mx-4 bounce-in">
+                <div class="text-6xl mb-4">🎉</div>
+                <h2 class="text-3xl font-bold text-green-600 mb-4" id="success-title">¡Felicitaciones!</h2>
+                <p class="text-gray-700 text-lg mb-6" id="success-message">
+                    Has completado el juego de memoria. ¡Excelente trabajo aprendiendo vocabulario!
+                </p>
+                <button onclick="closeModal(); completarActividad(1)" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors">
+                    <span id="close-text">Cerrar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="../js/actividad1.js"></script>
+</body>
 </html>

@@ -1,81 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Actividades</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            rel="stylesheet"
-        />
-    </head>
-    <body
-        class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen font-sans"
-    >
-        <header class="bg-white shadow-md border-b-4 border-blue-500">
-            <div
-                class="container mx-auto px-6 py-4 flex justify-between items-center"
-            >
-                <h1 class="text-2xl font-bold text-gray-800">Actividades</h1>
-                <nav class="space-x-4">
-                    <a
-                        href="index.html"
-                        class="text-gray-600 hover:text-blue-600"
-                        >Inicio</a
-                    >
-                    <a
-                        href="vocabulario.html"
-                        class="text-gray-600 hover:text-blue-600"
-                        >Vocabulario</a
-                    >
-                    <a
-                        href="actividades.html"
-                        class="text-blue-600 font-semibold"
-                        >Actividades</a
-                    >
-                </nav>
-            </div>
-        </header>
-
-        <main class="container mx-auto px-4 py-8">
-            <div
-                id="actividades-list"
-                class="max-w-2xl mx-auto space-y-6"
-            ></div>
-        </main>
-
-        <div
-            id="modal"
-            class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
-        >
-            <div class="bg-white rounded-xl shadow-xl max-w-sm w-full p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-gray-800">
-                        Actividad bloqueada
-                    </h2>
-                    <button
-                        onclick="closeModal()"
-                        class="text-gray-500 hover:text-gray-700 text-xl"
-                    >
-                        <i class="fas fa-times"></i>
-                    </button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades - Plataforma Inclusiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Barra de navegación -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                    </div>
+                    <h1 class="text-xl font-bold">Plataforma Inclusiva</h1>
                 </div>
-                <p class="text-gray-600 mb-6">
-                    Primero completa la actividad anterior para desbloquear
-                    esta.
-                </p>
-                <div class="flex justify-end">
-                    <button
-                        onclick="closeModal()"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold"
-                    >
-                        Cerrar
-                    </button>
+                <div class="flex space-x-6">
+                    <a href="index.html" class="hover:text-blue-200 transition-colors duration-200 text-lg">
+                        <i class="fas fa-home mr-2"></i>Inicio
+                    </a>
+                    <a href="vocabulario.html" class="hover:text-blue-200 transition-colors duration-200 text-lg">
+                        <i class="fas fa-book mr-2"></i>Vocabulario
+                    </a>
+                    <a href="actividades.html" class="text-blue-200 font-semibold text-lg">
+                        <i class="fas fa-gamepad mr-2"></i>Actividades
+                    </a>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <script src="../js/actividades.js"></script>
-    </body>
+    <!-- Contenido principal -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Header de la página -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+                <i class="fas fa-gamepad text-blue-600 text-2xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Actividades Educativas</h1>
+            <p class="text-xl text-gray-600">Completa las actividades en orden para desbloquear nuevos desafíos</p>
+        </div>
+
+        <!-- Indicador de progreso -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-semibold text-gray-800">Tu Progreso</h2>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-trophy text-yellow-500 text-xl"></i>
+                    <span id="progress-text" class="text-lg font-medium text-gray-700">0 de 5 completadas</span>
+                </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-4">
+                <div id="progress-bar" class="bg-gradient-to-r from-green-400 to-blue-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Contenedor de actividades -->
+        <div id="activities-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Las actividades se renderizan aquí con JavaScript -->
+        </div>
+    </main>
+
+    <!-- Modal para actividades bloqueadas -->
+    <div id="blocked-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center transform transition-all duration-300 scale-95">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-lock text-red-500 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Actividad Bloqueada</h3>
+            <p class="text-lg text-gray-600 mb-6">Primero completa la actividad anterior para desbloquear esta.</p>
+            <button onclick="closeBlockedModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl transition-colors duration-200 text-lg">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de felicitación (para cuando se complete una actividad) -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center transform transition-all duration-300 scale-95">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-green-500 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">¡Felicitaciones!</h3>
+            <p class="text-lg text-gray-600 mb-6">Has completado una actividad. ¡Sigue así!</p>
+            <button onclick="closeSuccessModal()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-xl transition-colors duration-200 text-lg">
+                Continuar
+            </button>
+        </div>
+    </div>
+
+    <script src="actividades.js"></script>
+</body>
 </html>

@@ -128,14 +128,12 @@ function createCard(cardInfo, index) {
 
 function speakText(cardInfo) {
     if ('speechSynthesis' in window) {
-        const text = cardInfo.type === 'text' ? translations[currentLanguage].cards[cardInfo.id] : translations[currentLanguage].cards[cardInfo.id];
+        const text = translations[currentLanguage].cards[cardInfo.id];
         const utterance = new SpeechSynthesisUtterance(text);
-
         const langCodes = { es: 'es-ES', en: 'en-US', fr: 'fr-FR' };
         utterance.lang = langCodes[currentLanguage];
         utterance.rate = 0.8;
         utterance.pitch = 1.1;
-
         speechSynthesis.speak(utterance);
     }
 }
@@ -250,3 +248,11 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTexts();
     initGame();
 });
+
+// 🔑 Corregido: ahora acepta el id de la actividad
+function completarActividad(id) {
+    let progreso = parseInt(localStorage.getItem("progreso")) || 0;
+    if (id > progreso) {
+        localStorage.setItem("progreso", id);
+    }
+}
