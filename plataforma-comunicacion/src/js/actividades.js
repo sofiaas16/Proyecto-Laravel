@@ -2,51 +2,43 @@
 const actividades = [
     {
       id: 1,
-      titulo: "Asociar Necesidades",
-      descripcion: "Arrastra las palabras a las imágenes correctas",
+      titulo: "Saludos",
+      descripcion: "Aprende palabras básicas de saludo",
       icono: "fas fa-hand-paper",
       color: "from-blue-400 to-blue-600",
       archivo: "actividad1.html",
     },
     {
       id: 2,
-      titulo: "Memoria de Saludos",
-      descripcion: "Encuentra las parejas de palabras de cortesía",
-      icono: "fas fa-handshake",
-      color: "from-green-400 to-green-600",
+      titulo: "Colores",
+      descripcion: "Identifica y usa los colores",
+      icono: "fas fa-palette",
+      color: "from-blue-400 to-blue-600",
       archivo: "actividad2.html",
     },
     {
       id: 3,
-      titulo: "Quiz de Emociones",
-      descripcion: "Identifica las emociones en las imágenes",
-      icono: "fas fa-smile",
-      color: "from-yellow-400 to-orange-500",
+      titulo: "Familia",
+      descripcion: "Palabras para hablar de tu familia",
+      icono: "fas fa-users",
+      color: "from-blue-400 to-blue-600",
       archivo: "actividad3.html",
     },
     {
       id: 4,
-      titulo: "Construir Oraciones",
-      descripcion: "Ordena las palabras para formar oraciones",
-      icono: "fas fa-puzzle-piece",
-      color: "from-purple-400 to-purple-600",
+      titulo: "Necesidades Básicas",
+      descripcion: "Comida, bebida y necesidades diarias",
+      icono: "fas fa-utensils",
+      color: "from-blue-400 to-blue-600",
       archivo: "actividad4.html",
     },
     {
       id: 5,
-      titulo: "Sonidos y Palabras",
-      descripción: "Escucha y selecciona la palabra correcta",
-      icono: "fas fa-volume-up",
-      color: "from-pink-400 to-red-500",
+      titulo: "Emociones",
+      descripcion: "Expresa cómo te sientes",
+      icono: "fas fa-smile",
+      color: "from-blue-400 to-blue-600",
       archivo: "actividad5.html",
-    },
-    {
-      id: 6,
-      titulo: "Comunicación Diaria",
-      descripcion: "Practica situaciones de la vida real",
-      icono: "fas fa-comments",
-      color: "from-indigo-400 to-blue-500",
-      archivo: "actividad6.html",
     },
   ]
   
@@ -58,6 +50,7 @@ const actividades = [
     cargarProgreso()
     renderizarActividades()
     actualizarBarraProgreso()
+    verificarProgresoAlCargar()
   }
   
   // Función para cargar el progreso desde localStorage
@@ -91,40 +84,24 @@ const actividades = [
     const div = document.createElement("div")
   
     if (desbloqueada) {
-      div.className = `bg-white rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden`
+      div.className = `bg-white rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden border border-gray-100`
       div.onclick = () => navegarAActividad(actividad.archivo)
     } else {
-      div.className = `bg-gray-200 rounded-2xl shadow-lg cursor-not-allowed overflow-hidden opacity-60`
+      div.className = `bg-gray-200 rounded-2xl shadow-lg cursor-not-allowed overflow-hidden opacity-60 border border-gray-200`
       div.onclick = () => mostrarModalBloqueada()
     }
   
     div.innerHTML = `
-          <div class="relative">
-              ${completada ? '<div class="absolute top-4 right-4 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"><i class="fas fa-check text-white text-sm"></i></div>' : ""}
-              ${!desbloqueada ? '<div class="absolute top-4 right-4 w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center"><i class="fas fa-lock text-white text-sm"></i></div>' : ""}
-              
-              <div class="bg-gradient-to-br ${desbloqueada ? actividad.color : "from-gray-300 to-gray-400"} p-8 text-center">
-                  <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <i class="${actividad.icono} text-white text-2xl"></i>
-                  </div>
-                  <h3 class="text-xl font-bold text-white mb-2">${actividad.titulo}</h3>
+          <div class="p-6 flex items-center space-x-4">
+              <div class="w-12 h-12 ${desbloqueada ? "bg-blue-100" : "bg-gray-300"} rounded-full flex items-center justify-center flex-shrink-0">
+                  <i class="${actividad.icono} ${desbloqueada ? "text-blue-600" : "text-gray-500"} text-xl"></i>
               </div>
-              
-              <div class="p-6">
-                  <p class="text-gray-600 text-lg leading-relaxed">${actividad.descripcion}</p>
-                  <div class="mt-4 flex items-center justify-between">
-                      <span class="text-sm font-medium ${desbloqueada ? "text-blue-600" : "text-gray-400"}">
-                          ${completada ? "Completada" : desbloqueada ? "Disponible" : "Bloqueada"}
-                      </span>
-                      <div class="flex items-center space-x-1">
-                          ${Array.from(
-                            { length: 3 },
-                            (_, i) =>
-                              `<div class="w-2 h-2 rounded-full ${desbloqueada ? "bg-blue-400" : "bg-gray-300"}"></div>`,
-                          ).join("")}
-                      </div>
-                  </div>
+              <div class="flex-1">
+                  <h3 class="text-xl font-semibold ${desbloqueada ? "text-gray-800" : "text-gray-500"} mb-1">${actividad.titulo}</h3>
+                  <p class="${desbloqueada ? "text-gray-600" : "text-gray-400"} text-sm">${actividad.descripcion}</p>
               </div>
+              ${!desbloqueada ? '<div class="flex-shrink-0"><i class="fas fa-lock text-gray-400 text-lg"></i></div>' : ""}
+              ${completada ? '<div class="flex-shrink-0"><i class="fas fa-check-circle text-green-500 text-lg"></i></div>' : ""}
           </div>
       `
   
@@ -209,14 +186,18 @@ const actividades = [
       progresoActual = numeroActividad
       localStorage.setItem("progreso_actividades", progresoActual.toString())
   
-      // Mostrar modal de felicitación
-      mostrarModalExito()
-  
-      // Actualizar la interfaz
+      // Actualizar la interfaz inmediatamente
       renderizarActividades()
       actualizarBarraProgreso()
   
+      // Mostrar modal de felicitación después de actualizar la UI
+      setTimeout(() => {
+        mostrarModalExito()
+      }, 100)
+  
       console.log(`Actividad ${numeroActividad} completada. Progreso actual: ${progresoActual}`)
+    } else if (numeroActividad <= progresoActual) {
+      console.log(`Actividad ${numeroActividad} ya estaba completada`)
     } else {
       console.warn("Intento de completar actividad fuera de secuencia:", numeroActividad)
     }
@@ -255,6 +236,23 @@ const actividades = [
     }
   }
   
+  // Función para verificar el progreso al cargar la página
+  function verificarProgresoAlCargar() {
+    // Check if we're returning from a completed activity
+    const urlParams = new URLSearchParams(window.location.search)
+    const actividadCompletada = urlParams.get("completed")
+  
+    if (actividadCompletada) {
+      const numeroActividad = Number.parseInt(actividadCompletada)
+      if (numeroActividad && numeroActividad === progresoActual + 1) {
+        completarActividad(numeroActividad)
+      }
+  
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+  }
+  
   // Cerrar modales al hacer clic fuera de ellos
   document.addEventListener("click", (e) => {
     const blockedModal = document.getElementById("blocked-modal")
@@ -277,10 +275,9 @@ const actividades = [
     }
   })
   
-  // Inicializar la página cuando se carga
-  document.addEventListener("DOMContentLoaded", inicializarPagina)
-  
   // Exponer funciones globales necesarias
   window.completarActividad = completarActividad
   window.reiniciarProgreso = reiniciarProgreso
+  
+  document.addEventListener("DOMContentLoaded", inicializarPagina)
   
