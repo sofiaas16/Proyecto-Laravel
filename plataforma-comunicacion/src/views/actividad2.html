@@ -1,209 +1,180 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vocabulario de Colores</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <style>
-            .color-box {
-                transition: all 0.3s ease;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Emociones - Aprende a Expresar Sentimientos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+        body { font-family: 'Comic Neue', cursive; }
+        
+        .emotion-card {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        
+        .emotion-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .emotion-card.visited {
+            border: 3px solid #10b981;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.5s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
             }
-            .color-box:hover {
+            50% {
                 transform: scale(1.05);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             }
-            .color-box.selected {
-                transform: scale(1.1);
-                box-shadow: 0 0 0 4px #3b82f6;
+            70% {
+                transform: scale(0.9);
             }
-            .color-box.matched {
-                opacity: 0.6;
-                transform: scale(0.95);
+            100% {
+                transform: scale(1);
+                opacity: 1;
             }
-            .name-card {
-                transition: all 0.3s ease;
+        }
+        
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+        
+        .pulse-gentle {
+            animation: pulseGentle 2s infinite;
+        }
+        
+        @keyframes pulseGentle {
+            0%, 100% {
+                opacity: 1;
             }
-            .name-card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            50% {
+                opacity: 0.7;
             }
-            .name-card.selected {
-                transform: translateY(-4px);
-                box-shadow: 0 0 0 3px #3b82f6;
-            }
-            .name-card.matched {
-                opacity: 0.6;
-                background: #10b981;
-                color: white;
-            }
-            .connection-line {
-                position: absolute;
-                height: 3px;
-                background: linear-gradient(90deg, #10b981, #3b82f6);
-                border-radius: 2px;
-                z-index: 10;
-                animation: drawLine 0.5s ease-out;
-            }
-            @keyframes drawLine {
-                from {
-                    width: 0;
-                }
-                to {
-                    width: 100%;
-                }
-            }
-            .feedback {
-                animation: fadeInOut 2s ease-in-out;
-            }
-            @keyframes fadeInOut {
-                0%,
-                100% {
-                    opacity: 0;
-                    transform: translateY(10px);
-                }
-                20%,
-                80% {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            .celebration {
-                animation: bounce 0.6s ease-in-out infinite alternate;
-            }
-            @keyframes bounce {
-                from {
-                    transform: scale(1);
-                }
-                to {
-                    transform: scale(1.05);
-                }
-            }
-        </style>
-    </head>
-    <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-        <div class="container mx-auto px-4 py-8">
-            <header class="text-center mb-8">
-                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                    <h1 class="text-4xl font-bold text-gray-800 mb-2">
-                        <i class="fas fa-palette text-purple-500 mr-3"></i>
-                        <span id="title">Vocabulario de Colores</span>
-                    </h1>
-                    <p class="text-lg text-gray-600" id="subtitle">
-                        Une cada color con su nombre
-                    </p>
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Header -->
+        <header class="bg-purple-500 text-white p-6 rounded-lg mb-6 shadow-lg">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2" id="main-title">😊 Juego de Emociones</h1>
+                    <p class="text-purple-100 text-lg" id="main-subtitle">Aprende a expresar cómo te sientes</p>
                 </div>
-
-                <div class="flex justify-center gap-4 mb-4">
-                    <button
-                        onclick="changeLanguage('es')"
-                        class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                    >
-                        ES
+                <div class="flex gap-3">
+                    <button onclick="changeLanguage('es')" class="language-btn bg-white text-purple-500 px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-50 transition-colors" data-lang="es">ES</button>
+                    <button onclick="changeLanguage('en')" class="language-btn bg-purple-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-300 transition-colors" data-lang="en">EN</button>
+                    <button onclick="changeLanguage('fr')" class="language-btn bg-purple-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-purple-300 transition-colors" data-lang="fr">FR</button>
+                    <button onclick="goBack()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        ← <span id="back-text">Volver</span>
                     </button>
-                    <button
-                        onclick="changeLanguage('en')"
-                        class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                    >
-                        EN
-                    </button>
-                    <button
-                        onclick="changeLanguage('fr')"
-                        class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                    >
-                        FR
-                    </button>
-                </div>
-
-                <div
-                    class="bg-green-100 border-l-4 border-green-500 p-4 rounded-lg max-w-2xl mx-auto"
-                >
-                    <p class="text-green-700" id="instructions">
-                        Haz clic en un color y luego en su nombre
-                        correspondiente
-                    </p>
-                </div>
-            </header>
-
-            <div class="relative">
-                <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                    <div class="bg-white rounded-2xl shadow-lg p-6">
-                        <h2
-                            class="text-2xl font-bold text-gray-800 mb-6 text-center"
-                            id="colors-title"
-                        >
-                            Colores
-                        </h2>
-                        <div
-                            class="grid grid-cols-2 gap-4"
-                            id="colors-container"
-                        ></div>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-lg p-6">
-                        <h2
-                            class="text-2xl font-bold text-gray-800 mb-6 text-center"
-                            id="names-title"
-                        >
-                            Nombres
-                        </h2>
-                        <div class="space-y-4" id="names-container"></div>
-                    </div>
                 </div>
             </div>
+        </header>
 
-            <div
-                id="feedback"
-                class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 text-center hidden z-50"
-            >
-                <div id="feedback-content"></div>
-            </div>
-
-            <div
-                id="success-modal"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
-            >
-                <div
-                    class="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-md mx-4"
-                >
-                    <div class="celebration">
-                        <i
-                            class="fas fa-trophy text-6xl text-yellow-500 mb-4"
-                        ></i>
-                    </div>
-                    <h2
-                        class="text-3xl font-bold text-gray-800 mb-4"
-                        id="success-title"
-                    >
-                        ¡Felicitaciones!
-                    </h2>
-                    <p class="text-lg text-gray-600 mb-6" id="success-message">
-                        Has completado todos los pares correctamente
+        <!-- Instructions -->
+        <div class="bg-blue-100 border-l-4 border-blue-400 p-4 mb-6 rounded-r-lg">
+            <div class="flex items-center">
+                <div class="text-blue-600 text-2xl mr-3">ℹ️</div>
+                <div>
+                    <p class="text-blue-800 font-semibold text-lg" id="instructions-title">¿Cómo usar esta página?</p>
+                    <p class="text-blue-700 text-base" id="instructions-text">
+                        Haz clic en cada emoción para aprender más sobre ella. Descubre cuándo usarla y cómo expresarla.
                     </p>
-                    <div class="flex gap-4 justify-center">
-                        <button
-                            onclick="restartGame()"
-                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                        >
-                            <i class="fas fa-redo mr-2"></i>
-                            <span id="restart-btn">Reiniciar</span>
-                        </button>
-                        <button
-                            onclick="goBack()"
-                            class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                        >
-                            <i class="fas fa-arrow-left mr-2"></i>
-                            <span id="back-btn">Continuar</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <script src="../js/actividad2.js"></script>
-    </body>
+        <!-- Progress -->
+        <div class="text-center mb-6">
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <p class="text-lg font-semibold text-gray-700 mb-2" id="progress-text">Progreso: <span id="progress-count">0</span>/5 emociones exploradas</p>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div id="progress-bar" class="bg-purple-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emotions Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" id="emotions-grid">
+            <!-- Emotions will be generated by JavaScript -->
+        </div>
+
+        <!-- Emotion Detail Modal -->
+        <div id="emotion-modal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop flex items-center justify-center hidden z-50">
+            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-2xl mx-4 max-h-[90vh] overflow-y-auto bounce-in">
+                <div class="text-center mb-6">
+                    <div class="text-8xl mb-4" id="modal-icon">😊</div>
+                    <h2 class="text-3xl font-bold mb-2" id="modal-title">Feliz</h2>
+                    <p class="text-gray-600 text-lg" id="modal-description">Descripción de la emoción</p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="situations-title">¿Cuándo la usas?</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700" id="situations-list">
+                            <!-- Situations will be populated by JavaScript -->
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="examples-title">Ejemplos de frases</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <ul class="space-y-2 text-gray-700" id="examples-list">
+                                <!-- Examples will be populated by JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3" id="advice-title">Consejo práctico</h3>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                            <p class="text-gray-700" id="advice-text">Consejo práctico aquí</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-4 mt-8">
+                    <button onclick="speakEmotion()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center">
+                        🔊 <span id="listen-text" class="ml-2">Escuchar</span>
+                    </button>
+                    <button onclick="closeEmotionModal()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
+                        <span id="close-text">Cerrar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md mx-4 bounce-in">
+                <div class="text-6xl mb-4">🎉</div>
+                <h2 class="text-3xl font-bold text-green-600 mb-4" id="success-title">¡Felicitaciones!</h2>
+                <p class="text-gray-700 text-lg mb-6" id="success-message">
+                    Has explorado todas las emociones. ¡Excelente trabajo aprendiendo a expresar sentimientos!
+                </p>
+                <div class="flex space-x-4">
+                    <button onclick="resetProgress()" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
+                        <span id="explore-again-text">Explorar de nuevo</span>
+                    </button>
+                    <button onclick="continueToActivities()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
+                        <span id="continue-text">Continuar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/actividad2.js"></script>
+</body>
 </html>
