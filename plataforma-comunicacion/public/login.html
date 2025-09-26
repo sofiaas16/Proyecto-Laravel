@@ -110,7 +110,7 @@
 
     <p id="message"></p>
     <div class="info">
-      ¿No tienes cuenta? <a href="http://127.0.0.1:8080/api/register">Regístrate</a>
+      ¿No tienes cuenta? <a href="http://127.0.0.1:8080/register.html">Regístrate</a>
     </div>
   </div>
 
@@ -128,7 +128,7 @@
       };
 
       try {
-        const response = await fetch('http://127.0.0.1:8080/api/login', {
+        const response = await fetch('http://127.0.0.1:8080/login.html', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
