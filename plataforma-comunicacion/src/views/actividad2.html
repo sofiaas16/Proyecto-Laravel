@@ -1,221 +1,222 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vocabulario de Colores</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <style>
-            .color-box {
-                transition: all 0.3s ease;
-            }
-            .color-box:hover {
-                transform: scale(1.05);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            }
-            .color-box.selected {
-                transform: scale(1.1);
-                box-shadow: 0 0 0 4px #3b82f6;
-            }
-            .color-box.matched {
-                opacity: 0.6;
-                transform: scale(0.95);
-            }
-            .name-card {
-                transition: all 0.3s ease;
-            }
-            .name-card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            }
-            .name-card.selected {
-                transform: translateY(-4px);
-                box-shadow: 0 0 0 3px #3b82f6;
-            }
-            .name-card.matched {
-                opacity: 0.6;
-                background: #10b981;
-                color: white;
-            }
-            .connection-line {
-                position: absolute;
-                height: 3px;
-                background: linear-gradient(90deg, #10b981, #3b82f6);
-                border-radius: 2px;
-                z-index: 10;
-                animation: drawLine 0.5s ease-out;
-            }
-            @keyframes drawLine {
-                from {
-                    width: 0;
-                }
-                to {
-                    width: 100%;
-                }
-            }
-            .feedback {
-                animation: fadeInOut 2s ease-in-out;
-            }
-            @keyframes fadeInOut {
-                0%,
-                100% {
-                    opacity: 0;
-                    transform: translateY(10px);
-                }
-                20%,
-                80% {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            .celebration {
-                animation: bounce 0.6s ease-in-out infinite alternate;
-            }
-            @keyframes bounce {
-                from {
-                    transform: scale(1);
-                }
-                to {
-                    transform: scale(1.05);
-                }
-            }
-        </style>
-    </head>
-    <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-        <div class="container mx-auto px-4 py-8">
-            <!-- HEADER -->
-            <header class="text-center mb-8">
-                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 flex justify-between items-center">
-                    <div>
-                        <h1 class="text-4xl font-bold text-gray-800 mb-2 flex items-center">
-                            <i class="fas fa-palette text-purple-500 mr-3"></i>
-                            <span id="title">Vocabulario de Colores</span>
-                        </h1>
-                        <p class="text-lg text-gray-600 text-left" id="subtitle">
-                            Une cada color con su nombre
-                        </p>
-                    </div>
-                    <button
-                        onclick="window.location.href='actividades.html'"
-                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                    >
-                        <i class="fas fa-arrow-left mr-2"></i> Volver
-                    </button>
-                </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vocabulario de Colores</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    .color-box {
+      transition: all 0.3s ease;
+    }
+    .color-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    .color-box.selected {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 4px #3b82f6;
+    }
+    .color-box.matched {
+      opacity: 0.6;
+      transform: scale(0.95);
+    }
+    .name-card {
+      transition: all 0.3s ease;
+    }
+    .name-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    .name-card.selected {
+      transform: translateY(-4px);
+      box-shadow: 0 0 0 3px #3b82f6;
+    }
+    .name-card.matched {
+      opacity: 0.6;
+      background: #10b981;
+      color: white;
+    }
+    .connection-line {
+      position: absolute;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #3b82f6);
+      border-radius: 2px;
+      z-index: 10;
+      animation: drawLine 0.5s ease-out;
+    }
+    @keyframes drawLine {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+    .feedback {
+      animation: fadeInOut 2s ease-in-out;
+    }
+    @keyframes fadeInOut {
+      0%, 100% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      20%, 80% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .celebration {
+      animation: bounce 0.6s ease-in-out infinite alternate;
+    }
+    @keyframes bounce {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.05);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <!-- HEADER -->
+    <header class="text-center mb-8">
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 flex justify-between items-center">
+        <div>
+          <h1 class="text-4xl font-bold text-gray-800 mb-2 flex items-center">
+            <i class="fas fa-palette text-purple-500 mr-3"></i>
+            <span id="title">Vocabulario de Colores</span>
+          </h1>
+          <p class="text-lg text-gray-600 text-left" id="subtitle">
+            Une cada color con su nombre
+          </p>
+        </div>
+        <button
+          onclick="window.location.href='actividades.html'"
+          class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+        >
+          <i class="fas fa-arrow-left mr-2"></i> Volver
+        </button>
+      </div>
 
-                <div class="flex justify-center gap-4 mb-4">
-                    <button
-                        onclick="changeLanguage('es')"
-                        class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                    >
-                        ES
-                    </button>
-                    <button
-                        onclick="changeLanguage('en')"
-                        class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                    >
-                        EN
-                    </button>
-                    <button
-                        onclick="changeLanguage('fr')"
-                        class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-                    >
-                        FR
-                    </button>
-                </div>
+      <!-- Idiomas -->
+      <div class="flex justify-center gap-4 mb-4">
+        <button
+          onclick="changeLanguage('es')"
+          class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+        >
+          ES
+        </button>
+        <button
+          onclick="changeLanguage('en')"
+          class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+        >
+          EN
+        </button>
+        <button
+          onclick="changeLanguage('fr')"
+          class="language-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+        >
+          FR
+        </button>
+      </div>
 
-                <div
-                    class="bg-green-100 border-l-4 border-green-500 p-4 rounded-lg max-w-2xl mx-auto"
-                >
-                    <p class="text-green-700" id="instructions">
-                        Haz clic en un color y luego en su nombre
-                        correspondiente
-                    </p>
-                </div>
-            </header>
+      <!-- Instrucciones -->
+      <div
+        class="bg-green-100 border-l-4 border-green-500 p-4 rounded-lg max-w-2xl mx-auto"
+      >
+        <p class="text-green-700" id="instructions">
+          Haz clic en un color y luego en su nombre correspondiente
+        </p>
+      </div>
+    </header>
 
-            <!-- GAME -->
-            <div class="relative">
-                <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                    <div class="bg-white rounded-2xl shadow-lg p-6">
-                        <h2
-                            class="text-2xl font-bold text-gray-800 mb-6 text-center"
-                            id="colors-title"
-                        >
-                            Colores
-                        </h2>
-                        <div
-                            class="grid grid-cols-2 gap-4"
-                            id="colors-container"
-                        ></div>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-lg p-6">
-                        <h2
-                            class="text-2xl font-bold text-gray-800 mb-6 text-center"
-                            id="names-title"
-                        >
-                            Nombres
-                        </h2>
-                        <div class="space-y-4" id="names-container"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FEEDBACK -->
-            <div
-                id="feedback"
-                class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 text-center hidden z-50"
-            >
-                <div id="feedback-content"></div>
-            </div>
-
-            <!-- SUCCESS MODAL -->
-            <div
-                id="success-modal"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
-            >
-                <div
-                    class="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-md mx-4"
-                >
-                    <div class="celebration">
-                        <i
-                            class="fas fa-trophy text-6xl text-yellow-500 mb-4"
-                        ></i>
-                    </div>
-                    <h2
-                        class="text-3xl font-bold text-gray-800 mb-4"
-                        id="success-title"
-                    >
-                        ¡Felicitaciones!
-                    </h2>
-                    <p class="text-lg text-gray-600 mb-6" id="success-message">
-                        Has completado todos los pares correctamente
-                    </p>
-                    <div class="flex gap-4 justify-center">
-                        <button
-                            onclick="restartGame()"
-                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                        >
-                            <i class="fas fa-redo mr-2"></i>
-                            <span id="restart-btn">Reiniciar</span>
-                        </button>
-                        <button
-                            onclick="window.location.href='actividades.html'"
-                            class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                        >
-                            <i class="fas fa-arrow-left mr-2"></i>
-                            <span id="back-btn">Volver</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <!-- GAME -->
+    <div class="relative">
+      <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+          <h2
+            class="text-2xl font-bold text-gray-800 mb-6 text-center"
+            id="colors-title"
+          >
+            Colores
+          </h2>
+          <div class="grid grid-cols-2 gap-4" id="colors-container"></div>
         </div>
 
-        <script src="../js/actividad2.js"></script>
-    </body>
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+          <h2
+            class="text-2xl font-bold text-gray-800 mb-6 text-center"
+            id="names-title"
+          >
+            Nombres
+          </h2>
+          <div class="space-y-4" id="names-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div
+      id="feedback"
+      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 text-center hidden z-50"
+    >
+      <div id="feedback-content"></div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div
+      id="success-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-md mx-4"
+      >
+        <div class="celebration">
+          <i class="fas fa-trophy text-6xl text-yellow-500 mb-4"></i>
+        </div>
+        <h2
+          class="text-3xl font-bold text-gray-800 mb-4"
+          id="success-title"
+        >
+          ¡Felicitaciones!
+        </h2>
+        <p class="text-lg text-gray-600 mb-6" id="success-message">
+          Has completado todos los pares correctamente
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <button
+            onclick="restartGame()"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          >
+            <i class="fas fa-redo mr-2"></i>
+            <span id="restart-btn">Reiniciar</span>
+          </button>
+          <button
+            onclick="continueToNext()"
+            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          >
+            <i class="fas fa-arrow-right mr-2"></i>
+            <span id="continue-btn">Continuar</span>
+          </button>
+          <button
+            onclick="window.location.href='actividades.html'"
+            class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          >
+            <i class="fas fa-arrow-left mr-2"></i>
+            <span id="back-btn">Volver</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/actividad2.js"></script>
+</body>
 </html>
