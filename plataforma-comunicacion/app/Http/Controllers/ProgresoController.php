@@ -4,39 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProgresoResource;
+use App\Http\Requests\ProgresoRequest;
 
 class ProgresoController extends Controller
 {
-    public function guardar(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'lecciones_completadas' => 'required|array'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Datos inválidos',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $user = $request->user();
-
-        foreach ($request->lecciones_completadas as $leccionId) {
-            \App\Models\Progreso::firstOrCreate([
-                'user_id' => $user->id,
-                'leccion_id' => $leccionId
-            ]);
-        }
-
-        return response()->json(['mensaje' => 'Progreso guardado']);
+    public function guardar(ProgresoRequest $request) {
+        $progreso = \App\Models\Progreso::firstOrCreate($request->validated());
+        return new ProgresoResource($progreso);
     }
-
-    public function obtener(Request $request)
+    ic function obtener(Request $request)
     {
         $user = $request->user();
-        $progreso = $user->progresos()->pluck('leccion_id');
-        return response()->json(['lecciones' => $progreso]);
+        $progresos = $user->progresos()->with('leccion')->get();
+        return response()->json([
+            'status' => 'success',
+            'progresos' => ProgresoResource::collection($progresos)
+        ]);
     }
 }

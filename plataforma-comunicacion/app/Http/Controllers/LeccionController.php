@@ -5,46 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Leccion;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\LeccionResource;
+use app\Http\Requests\LeccionRequest;
+
 
 class LeccionController extends Controller
 {
     // Listar todas las lecciones
     public function index()
     {
+        $lecciones = Leccion::all();
         return response()->json([
             'status' => 'success',
-            'message' => 'Lista de lecciones obtenida correctamente',
-            'lecciones' => Leccion::all()
+            'lecciones' => LeccionResource::collection($lecciones)
         ]);
     }
 
     // Crear una nueva leccion
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'titulo' => 'required|string',
-            'contenido' => 'nullable|string'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Datos inválidos',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $leccion = Leccion::create([
-            'titulo' => $request->titulo,
-            'contenido' => $request->contenido
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Lección creada correctamente',
-            'leccion' => $leccion
-        ], 201);
+    public function store(LeccionRequest $request) {
+        $leccion = Leccion::create($request->validated());
+        return new LeccionResource($leccion);
     }
+    
 
     // Mostrar una lección
     public function show($id)
