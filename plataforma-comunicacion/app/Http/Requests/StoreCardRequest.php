@@ -6,21 +6,25 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCardRequest extends FormRequest
 {
-    public function authorize(): bool
+    public function authorize()
     {
-        return true; // permitimos que cualquier usuario autenticado haga request (ajustable)
+        // Solo admins
+        return $this->user()->is_admin ?? false;
     }
 
-    public function rules(): array
+    public function rules()
     {
         return [
-            'key_phrase' => 'required|string|max:255',
-            'image' => 'nullable|string|max:255',
-            'translations' => 'required|array',
-            'translations.*' => 'string|max:255',
-            'audio_files' => 'required|array',
-            'audio_files.*' => 'string|max:255',
-            'method' => 'required|string|in:visual,auditivo,tactil',
+            'titulo' => 'required|string|max:255',
+            'contenido' => 'required|string',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'titulo.required' => 'El titulo es obligatorio',
+            'contenido.required' => 'El contenido es obligatorio',
         ];
     }
 }
