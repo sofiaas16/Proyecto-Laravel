@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/lecciones/{id}', [LeccionController::class, 'show']);
 
     // Rutas solo para admins
-    Route::middleware('checkRole:admin')->group(function() {
+    Route::middleware(['auth:sanctum', 'checkRole:admin'])->group(function() {
         Route::get('/admin', [AdminController::class, 'index']);
 
         // Card Controller
