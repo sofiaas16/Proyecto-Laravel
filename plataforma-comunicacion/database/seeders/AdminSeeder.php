@@ -11,12 +11,12 @@ class AdminSeeder extends Seeder
     public function run()
     {
         // Busca si ya existe el admin
-        $admin = User::where('email', 'admin@example.com')->first();
+        $admin = User::where('email', 'adrian@gmail.com')->first();
 
         if (!$admin) {
             $admin = User::create([
-                'name' => 'Admin',
-                'email' => 'admin@example.com',
+                'name' => 'Adrian',
+                'email' => 'adrian@gmail.com',
                 'password' => Hash::make('password123'), // Cambia luego
                 'is_admin' => true, // si tienes columna is_admin
             ]);
