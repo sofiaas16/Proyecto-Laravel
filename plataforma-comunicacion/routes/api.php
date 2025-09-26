@@ -26,9 +26,9 @@ Route::middleware('auth:sanctum')->group(function() {
     // Rutas publicas de cards
     Route::get('/cards', [CardController::class, 'index']);
     Route::get('/cards/{id}', [CardController::class, 'show']);
-
-    Route::post('/progreso', [ProgresoController::class, 'guardar']);
-    Route::get('/progreso', [ProgresoController::class, 'obtener']);
+    
+    Route::post('/progresos/guardar', [ProgresoController::class, 'guardar']);
+    Route::get('/progresos', [ProgresoController::class, 'obtener']);
 
     Route::get('/lecciones', [LeccionController::class, 'index']);
     Route::get('/lecciones/{id}', [LeccionController::class, 'show']);
