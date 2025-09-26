@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>🌍 Plataforma Interactiva de Comunicación y Aprendizaje</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    </head>
+    <body
+        class="bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 min-h-screen flex flex-col"
+    >
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="max-w-10xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                    </div>
+                    <h1 class="text-xl font-bold">Plataforma Inclusiva</h1>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="homeAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                        <i class="fas fa-home mr-2"></i>Inicio
+                    </a>
+                    <a href="vocabularioAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                        <i class="fas fa-book mr-2"></i>Vocabulario
+                    </a>
+                    <a href="actividadesAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                        <i class="fas fa-gamepad mr-2"></i>Actividades
+                    </a>
+                    <a href="leccionesAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                        <i class="fas fa-user mr-2"></i>Lecciones
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+  
+        </nav>
+
+        <main class="flex-1 p-8 space-y-12">
+            <section id="home" class="text-center space-y-6">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                    🌍 Plataforma Interactiva de Comunicación y Aprendizaje
+                </h1>
+                <div
+                    class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg"
+                >
+                    <h2 class="text-2xl font-bold text-blue-600 mb-4">
+                        Bienvenida
+                    </h2>
+                    <p class="text-gray-700 text-lg leading-relaxed">
+                        Nuestra plataforma está diseñada para acompañar a niños,
+                        jóvenes y adultos con trastornos del lenguaje en
+                        Colombia. Creemos en una educación inclusiva, en la
+                        autonomía y en el derecho de todas las personas a
+                        comunicarse y ser escuchadas. Está dirigida a padres,
+                        cuidadores, docentes y terapeutas, ofreciendo recursos
+                        accesibles, interactivos y fáciles de usar.
+                    </p>
+                </div>
+            </section>
+
+            <section id="disorders">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
+                    🌟 Trastornos más comunes
+                </h2>
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                >
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                        onclick="showDisorderInfo('tea')"
+                    >
+                        <h3 class="text-lg font-bold text-blue-600 mb-2">
+                            🔹 TEA
+                        </h3>
+                        <p class="text-gray-700 text-sm">
+                            Dificulta la comunicación social y el entendimiento
+                            de gestos o expresiones. Con apoyos visuales,
+                            pictogramas y audios se logra mejorar la interacción
+                            diaria.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                        onclick="showDisorderInfo('afasia')"
+                    >
+                        <h3 class="text-lg font-bold text-green-600 mb-2">
+                            🔹 Afasia
+                        </h3>
+                        <p class="text-gray-700 text-sm">
+                            Suele aparecer después de un accidente
+                            cerebrovascular o lesión cerebral. Afecta la
+                            capacidad de hablar, comprender, leer o escribir. La
+                            práctica guiada y el uso de símbolos facilitan la
+                            recuperación.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                        onclick="showDisorderInfo('disartria')"
+                    >
+                        <h3 class="text-lg font-bold text-yellow-600 mb-2">
+                            🔹 Disartria
+                        </h3>
+                        <p class="text-gray-700 text-sm">
+                            Provocada por daños neurológicos, afecta la
+                            articulación del habla. El apoyo auditivo y los
+                            ejercicios de pronunciación ayudan a que la persona
+                            sea más comprendida.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                        onclick="showDisorderInfo('otros')"
+                    >
+                        <h3 class="text-lg font-bold text-red-600 mb-2">
+                            🔹 Otros trastornos
+                        </h3>
+                        <p class="text-gray-700 text-sm">
+                            Dislalia: errores en la pronunciación de sonidos.
+                            Apraxia del habla: dificultad para planificar y
+                            coordinar los movimientos del habla. Síndromes
+                            genéticos o neurológicos que afectan el lenguaje y
+                            la comunicación.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="caa" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
+                    💡 ¿Por qué la Comunicación Aumentativa y Alternativa (CAA)?
+                </h2>
+                <p class="text-gray-700 text-lg mb-6 text-center">
+                    La CAA ofrece tarjetas visuales, pictogramas, audios y
+                    tecnología accesible que complementan el lenguaje verbal.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="text-center p-4">
+                        <div class="text-4xl mb-2">👶</div>
+                        <p class="text-gray-700">
+                            ✔️ Un niño puede expresar que tiene hambre señalando
+                            un pictograma.
+                        </p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="text-4xl mb-2">👨</div>
+                        <p class="text-gray-700">
+                            ✔️ Un adulto con afasia puede recuperar
+                            independencia usando un tablero digital.
+                        </p>
+                    </div>
+                    <div class="text-center p-4">
+                        <div class="text-4xl mb-2">🎓</div>
+                        <p class="text-gray-700">
+                            ✔️ Un estudiante con TEA puede participar en clase
+                            con apoyos visuales.
+                        </p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button
+                        onclick="demonstrateCAA()"
+                        class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                        🚀 Demostrar CAA
+                    </button>
+                </div>
+            </section>
+
+            <section id="contact" class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
+                    📞 Contacto y Apoyo
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-600 mb-4">
+                            ¿Necesitas ayuda?
+                        </h3>
+                        <p class="text-gray-700 mb-4">
+                            Nuestro equipo está aquí para apoyarte en el proceso
+                            de comunicación inclusiva.
+                        </p>
+                        <div class="space-y-2">
+                            <p class="text-gray-700">
+                                📧 Email: info@plataformainclusiva.co
+                            </p>
+                            <p class="text-gray-700">
+                                📱 WhatsApp: +57 300 123 4567
+                            </p>
+                            <p class="text-gray-700">
+                                🌐 Web: www.plataformainclusiva.co
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <button
+                            onclick="showContact()"
+                            class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors mb-4"
+                        >
+                            Solicitar Consulta
+                        </button>
+                        <a
+                            href="https://www.facebook.com/share/g/1JKnoyvTxE/"
+                            target="_blank"
+                            class="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors mb-4 text-center block"
+                        >
+                            Unirse a la Comunidad
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-center">
+                <a
+                    href="test.html"
+                    class="bg-blue-600 text-white text-xl font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition inline-block"
+                >
+                    Realizar Test de Trastornos
+                </a>
+            </section>
+        </main>
+
+        <div
+            id="modal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+        >
+            <div
+                class="bg-white p-8 rounded-xl max-w-2xl max-h-96 overflow-y-auto"
+            >
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modal-title" class="text-2xl font-bold"></h3>
+                    <button
+                        onclick="closeModal()"
+                        class="text-gray-500 hover:text-gray-700 text-2xl"
+                    >
+                        &times;
+                    </button>
+                </div>
+                <div id="modal-content"></div>
+            </div>
+        </div>
+
+        <script src="../js/home.js"></script>
+    </body>
+</html>

@@ -84,7 +84,7 @@
 
     <p class="text-gray-600 text-md">
       ¿No tienes cuenta?
-      <a href="http://127.0.0.1:8080/register.html" class="font-bold text-blue-600 hover:underline">
+      <a href="http://127.0.0.1:8080/src/views/register.html" class="font-bold text-blue-600 hover:underline">
         Regístrate
       </a>
     </p>
@@ -97,11 +97,21 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const data = {
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
-      };
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
 
+      // Si es el admin fijo
+      if(email === 'adrian@gmail.com' && password === 'campus2023') {
+        localStorage.setItem('token', 'admin-fixed-token'); // token temporal
+        localStorage.setItem('role', 'admin');
+        message.style.color = 'green';
+        message.textContent = '¡Ingreso como administrador!';
+        form.reset();
+        window.location.href = 'homeAdmin.html';
+        return;
+      }
+
+      // Login normal vía API
       try {
         const response = await fetch('http://127.0.0.1:8080/api/login', {
           method: 'POST',
@@ -109,33 +119,32 @@
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify({ email, password }),
           credentials: 'include'
         });
 
         const result = await response.json();
 
-        if (response.ok) {
+        if(response.ok && result.token) {
           localStorage.setItem('token', result.token);
+          localStorage.setItem('role', result.role || 'user');
           message.style.color = 'green';
           message.textContent = '¡Ingreso exitoso!';
           form.reset();
-          window.location.href = 'http://127.0.0.1:8080/src/views/home.html';
+          if(result.role === 'admin') window.location.href = 'homeAdmin.html';
+          else window.location.href = 'home.html';
         } else {
           let errorMsg = result.message || 'Error al iniciar sesión';
-          if (result.errors) {
-            errorMsg = Object.values(result.errors).flat().join(', ');
-          }
+          if(result.errors) errorMsg = Object.values(result.errors).flat().join(', ');
           message.style.color = 'red';
           message.textContent = errorMsg;
         }
-      } catch (error) {
+      } catch (err) {
         message.style.color = 'red';
         message.textContent = 'No se pudo conectar con el servidor';
       }
     });
 
-    // Aumentar texto accesibilidad
     const increaseBtn = document.getElementById('increaseText');
     let increased = false;
     increaseBtn.addEventListener('click', () => {
