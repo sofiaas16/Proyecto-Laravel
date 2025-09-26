@@ -4,12 +4,12 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Card;
-use Illuminate\Support\Str;
 
 class CardSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
+<<<<<<< HEAD
         $cards = [
             // Salud y cortesía
             ['Hola', 'visual', 'hola.png', ['es'=>'Hola','en'=>'Hello'], ['es'=>'hola.mp3','en'=>'hello.mp3']],
@@ -44,5 +44,9 @@ class CardSeeder extends Seeder
                 'audio_files' => json_encode($c[4]),
             ]);
         }
+=======
+        Card::truncate(); // limpia la tabla antes de crear
+        Card::factory()->count(10)->create(); // crea 10 tarjetas falsas
+>>>>>>> danilo
     }
 }

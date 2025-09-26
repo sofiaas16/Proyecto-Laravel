@@ -20,7 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id', // agregamos para asignarlo al crear usuarios
+        'role_id',
+        'progreso',
     ];
 
     /**
@@ -41,6 +42,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'progreso' => 'array',
     ];
 
     /**
@@ -50,4 +52,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function progresos()
+{
+    return $this->hasMany(Progreso::class);
+}
+
 }
