@@ -10,22 +10,19 @@ class AdminSeeder extends Seeder
 {
     public function run()
     {
-        // Busca si ya existe el admin
-        $admin = User::where('email', 'adrian@gmail.com')->first();
-
-        if (!$admin) {
-            $admin = User::create([
+        $admin = User::firstOrCreate(
+            ['email' => 'adrian@gmail.com'],
+            [
                 'name' => 'Adrian',
-                'email' => 'adrian@gmail.com',
-                'password' => Hash::make('password123'), // Cambia luego
-                'is_admin' => true, // si tienes columna is_admin
-            ]);
-        }
-
-        // Crea el token Sanctum
-        $token = $admin->createToken('AdminToken')->plainTextToken;
-
-        // Opcional: imprime el token en consola
-        $this->command->info("Token de Admin: $token");
+                'password' => Hash::make('campus2023'),
+                'is_admin' => true
+            ]
+        );
+        
+        // Borra tokens antiguos y crea uno fijo
+        $admin->tokens()->delete();
+        $token = $admin->createToken('admin-token')->plainTextToken;
+        
+        $this->command->info("Token de Admin real: $token");
     }
 }

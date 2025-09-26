@@ -49,11 +49,11 @@
   <script>
     const API_URL = "http://127.0.0.1:8080/api/";
     const token = localStorage.getItem("token");
-    fetch(API_URL + "lecciones", {
-        headers: { "Authorization": `Bearer ${token}`, "Accept": "application/json" }
-    });
+    const role = localStorage.getItem("role");
 
-    if (!token) {
+    // Verificar que sea admin y tenga token válido
+    if (!token || role !== "admin") {
+      alert("No autorizado. Por favor inicia sesión como administrador.");
       window.location.href = "login.html";
     }
 

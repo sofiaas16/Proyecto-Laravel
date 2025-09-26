@@ -12,14 +12,12 @@ class AuthController extends Controller
     // Registro
     public function register(Request $request)
     {
-        // Valida datos de entrada
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6'
         ]);
 
-        // Si falla la validación
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
@@ -28,7 +26,6 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // Crea usuario normal
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -36,21 +33,20 @@ class AuthController extends Controller
             'role_id' => 2 // usuario normal
         ]);
 
-        // Genera token
         $token = $user->createToken('app')->plainTextToken;
 
         return response()->json([
             'status' => 'success',
             'message' => 'Usuario registrado exitosamente',
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'role' => 'user'
         ], 201);
     }
 
     // Login
     public function login(Request $request)
     {
-        // Valida los datos básicos del login (opcional, pero recomendado)
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string'
@@ -64,10 +60,8 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // Busca el usuario
         $user = User::where('email', $request->email)->first();
 
-        // Credenciales incorrectas
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 'error',
@@ -75,14 +69,20 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Token
+        // Borra tokens antiguos (opcional si quieres que haya solo un token activo)
+        $user->tokens()->delete();
+
         $token = $user->createToken('app')->plainTextToken;
+
+        // Determina rol
+        $role = $user->is_admin ? 'admin' : 'user';
 
         return response()->json([
             'status' => 'success',
             'message' => 'Login exitoso',
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'role' => $role
         ]);
     }
 
