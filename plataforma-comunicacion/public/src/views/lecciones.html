@@ -127,60 +127,107 @@
     </h2>
     <div id="lista-lecciones"></div>
   </div>
-
   <script>
     const API_URL = "http://127.0.0.1:8080/api/";
     const token = localStorage.getItem("token");
-
+  
     if (!token) {
       window.location.href = "login.html";
     }
-
-    async function obtenerLecciones() {
+  
+    let leccionesGlobal = [];
+    let leccionesCompletadas = [];
+  
+    // 1. Traer lecciones y progreso real
+    async function obtenerLeccionesYProgreso() {
       try {
-        const response = await fetch(API_URL + "lecciones", {
-          method: 'GET',
-          headers: { 
-            "Authorization": `Bearer ${token}`, 
-            "Accept": "application/json"
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('HTTP error ' + response.status);
-        }
-
-        const data = await response.json();
-        console.log("Lecciones:", data);
-
-        if (data.status !== 'success') {
-          throw new Error('Respuesta del servidor no exitosa');
-        }
-
-        renderLecciones(data.lecciones);
-
+        const [resLecciones, resProgreso] = await Promise.all([
+          fetch(API_URL + "lecciones", {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Accept": "application/json"
+            }
+          }),
+          fetch(API_URL + "progresos", {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Accept": "application/json"
+            }
+          })
+        ]);
+  
+        if (!resLecciones.ok || !resProgreso.ok)
+          throw new Error("Error HTTP");
+  
+        const dataLecciones = await resLecciones.json();
+        const dataProgreso = await resProgreso.json();
+  
+        leccionesGlobal = dataLecciones.lecciones;
+        leccionesCompletadas = dataProgreso.lecciones; // ids completadas
+  
+        renderLecciones();
       } catch (error) {
-        console.error("Error al obtener lecciones:", error);
+        console.error("Error al obtener datos:", error);
         document.getElementById("lista-lecciones").innerHTML =
           "<p style='color:red;text-align:center;'>Error al cargar las lecciones. Verifica tu token o inicia sesión nuevamente.</p>";
       }
     }
-
-    function renderLecciones(lecciones) {
+  
+    // 2. Guardar progreso al hacer click
+    async function marcarLeccionComoCompletada(leccionId) {
+      try {
+        const res = await fetch(API_URL + "progresos/guardar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ lecciones_completadas: [leccionId] })
+        });
+  
+        const data = await res.json();
+        console.log("Progreso guardado:", data);
+  
+        // Volver a cargar progreso después de marcar
+        obtenerLeccionesYProgreso();
+      } catch (error) {
+        console.error("Error al guardar progreso:", error);
+      }
+    }
+  
+    // 3. Renderizar en pantalla
+    function renderLecciones() {
       const contenedor = document.getElementById("lista-lecciones");
       contenedor.innerHTML = "";
-
-      lecciones.forEach(leccion => {
+  
+      // progreso real
+      const total = leccionesGlobal.length;
+      const completadas = leccionesCompletadas.length;
+      const porcentaje = (completadas / total) * 100;
+  
+      document.getElementById("progress-text").textContent =
+        `${completadas} de ${total} completadas`;
+      document.getElementById("progress-bar").style.width = porcentaje + "%";
+  
+      leccionesGlobal.forEach(leccion => {
+        const completada = leccionesCompletadas.includes(leccion.id);
+  
         contenedor.innerHTML += `
-          <div class="leccion">
-            <h3>${leccion.titulo}</h3>
-            <p>${leccion.contenido}</p>
+          <div class="leccion ${completada ? 'bg-green-50' : ''}" onclick="marcarLeccionComoCompletada(${leccion.id})">
+            <div class="flex justify-between items-center">
+              <h3>${leccion.titulo}</h3>
+              ${completada ? '<i class="fas fa-check-circle text-green-500 text-xl"></i>' : '<i class="fas fa-circle text-gray-300 text-xl"></i>'}
+            </div>
+            <p>${leccion.contenido ?? ''}</p>
           </div>
         `;
       });
     }
-
-    obtenerLecciones();
+  
+    // inicial
+    obtenerLeccionesYProgreso();
   </script>
+  
+  
 </body>
 </html>
