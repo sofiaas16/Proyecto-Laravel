@@ -117,32 +117,33 @@
   <script>
     const form = document.getElementById('loginForm');
     const message = document.getElementById('message');
-
+  
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
+  
       const formData = new FormData(form);
       const data = {
         email: formData.get('email'),
         password: formData.get('password')
       };
-
+  
       try {
-        const response = await fetch('http://127.0.0.1:8080/login.html', {
+        const response = await fetch('http://127.0.0.1:8080/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
           body: JSON.stringify(data)
         });
-
+  
         const result = await response.json();
-
+  
         if (response.ok) {
           message.style.color = 'green';
           message.textContent = '¡Ingreso exitoso!';
           form.reset();
-          // Redirigir al dashboard o página principal
+          // Redirigir al home
           window.location.href = 'http://127.0.0.1:8080/src/views/home.html';
         } else {
           let errorMsg = result.message || 'Error al iniciar sesión';
@@ -157,6 +158,6 @@
         message.textContent = 'No se pudo conectar con el servidor';
       }
     });
-  </script>
+  </script>  
 </body>
 </html>
