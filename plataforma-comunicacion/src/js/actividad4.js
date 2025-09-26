@@ -136,21 +136,50 @@ class BasicNeedsGame {
 
   setupModal() {
     const closeButton = document.getElementById("close-modal")
-    closeButton.addEventListener("click", () => this.closeModal())
+    if (closeButton) {
+      closeButton.addEventListener("click", () => this.closeModal())
+    }
   }
 
   showCongratulations() {
     const modal = document.getElementById("congratulations-modal")
+    if (!modal) return
+
     modal.classList.remove("hidden")
     modal.classList.add("flex")
 
+    // --- NUEVO: marcar la actividad 4 como completada (Necesidades Básicas)
     if (typeof window.completarActividad === "function") {
-      window.completarActividad(8)
+      try {
+        window.completarActividad(4) // <-- actividad 4 completada
+      } catch (err) {
+        console.error("Error al llamar completarActividad:", err)
+      }
+    } else {
+      const progress = JSON.parse(localStorage.getItem("actividadesCompletadas") || "[]")
+      if (!progress.includes(4)) {
+        progress.push(4)
+        localStorage.setItem("actividadesCompletadas", JSON.stringify(progress))
+      }
+    }
+
+    // --- NUEVO: botón "Continuar" → actividad5.html
+    const inner = modal.querySelector(".bg-white, .rounded-2xl, .p-8") || modal.firstElementChild
+    if (inner && !document.getElementById("continue-activity-btn")) {
+      const continueBtn = document.createElement("button")
+      continueBtn.id = "continue-activity-btn"
+      continueBtn.textContent = "Continuar"
+      continueBtn.className = "mt-4 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+      continueBtn.onclick = () => {
+        window.location.href = "actividad5.html"
+      }
+      inner.appendChild(continueBtn)
     }
   }
 
   closeModal() {
     const modal = document.getElementById("congratulations-modal")
+    if (!modal) return
     modal.classList.add("hidden")
     modal.classList.remove("flex")
   }
@@ -183,3 +212,4 @@ if (typeof window.completarActividad !== "function") {
     }
   }
 }
+
