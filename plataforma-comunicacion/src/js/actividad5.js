@@ -1,178 +1,257 @@
-// Emoji game data
-const emojis = [
-    { emoji: "😀", name: "feliz", hint: "Cuando estás contento" },
-    { emoji: "😢", name: "triste", hint: "Cuando lloras" },
-    { emoji: "😡", name: "enojado", hint: "Cuando estás molesto" },
-    { emoji: "🌞", name: "sol", hint: "Brilla en el día" },
-    { emoji: "🌙", name: "luna", hint: "Aparece en la noche" },
-  ]
-  
-  let currentEmojiIndex = 0
-  let completedEmojis = 0
-  let isAnswered = false
-  
-  // DOM elements
-  const emojiDisplay = document.getElementById("emoji-display")
-  const emojiInput = document.getElementById("emoji-input")
-  const checkBtn = document.getElementById("check-btn")
-  const nextBtn = document.getElementById("next-btn")
-  const feedback = document.getElementById("feedback")
-  const progreso = document.getElementById("progreso")
-  const successModal = document.getElementById("success-modal")
-  const closeModal = document.getElementById("close-modal")
-  
-  // Function declaration for completarActividad
-  function completarActividad(activityNumber) {
-    console.log(`Actividad ${activityNumber} completada`)
+// Translations
+const translations = {
+  es: {
+    title: "Vocabulario de Emociones",
+    subtitle: "Aprende palabras básicas de emociones",
+    instructions: "¿Cómo usar esta página?",
+    instructionsText: "Encuentra los pares de tarjetas que coinciden. Haz clic en las tarjetas para voltearlas y busca las parejas.",
+    scoreText: "Pares encontrados:",
+    resetText: "Reiniciar",
+    successTitle: "¡Felicitaciones!",
+    successMessage: "Has completado el juego de memoria. ¡Excelente trabajo aprendiendo emociones!",
+    playAgainText: "Jugar de nuevo",
+    continueText: "Finalizar",
+    cards: {
+      happy: "Feliz",
+      sad: "Triste",
+      angry: "Enojado",
+      scared: "Asustado",
+      tired: "Cansado",
+      inLove: "Enamorado",
+    },
+  },
+  en: {
+    title: "Emotions Vocabulary",
+    subtitle: "Learn basic emotions words",
+    instructions: "How to use this page?",
+    instructionsText: "Find matching pairs of cards. Click on cards to flip them and look for pairs.",
+    scoreText: "Pairs found:",
+    resetText: "Reset",
+    successTitle: "Congratulations!",
+    successMessage: "You have completed the memory game. Excellent work learning emotions!",
+    playAgainText: "Play again",
+    continueText: "Finish",
+    cards: {
+      happy: "Happy",
+      sad: "Sad",
+      angry: "Angry",
+      scared: "Scared",
+      tired: "Tired",
+      inLove: "In love",
+    },
+  },
+  fr: {
+    title: "Vocabulaire des Émotions",
+    subtitle: "Apprenez les mots de base des émotions",
+    instructions: "Comment utiliser cette page?",
+    instructionsText: "Trouvez les paires de cartes qui correspondent. Cliquez sur les cartes pour les retourner et cherchez les paires.",
+    scoreText: "Paires trouvées:",
+    resetText: "Réinitialiser",
+    successTitle: "Félicitations!",
+    successMessage: "Vous avez terminé le jeu de mémoire. Excellent travail pour apprendre les émotions!",
+    playAgainText: "Rejouer",
+    continueText: "Terminer",
+    cards: {
+      happy: "Heureux",
+      sad: "Triste",
+      angry: "Fâché",
+      scared: "Effrayé",
+      tired: "Fatigué",
+      inLove: "Amoureux",
+    },
+  },
+}
+
+// Card data (emoji + word pairs)
+const cardData = [
+  { id: "happy", type: "text", gradient: "from-yellow-400 to-orange-500" },
+  { id: "happy", type: "icon", icon: "😊", gradient: "from-yellow-400 to-orange-500" },
+  { id: "sad", type: "text", gradient: "from-blue-400 to-indigo-500" },
+  { id: "sad", type: "icon", icon: "😢", gradient: "from-blue-400 to-indigo-500" },
+  { id: "angry", type: "text", gradient: "from-red-400 to-pink-500" },
+  { id: "angry", type: "icon", icon: "😡", gradient: "from-red-400 to-pink-500" },
+  { id: "scared", type: "text", gradient: "from-purple-400 to-indigo-500" },
+  { id: "scared", type: "icon", icon: "😱", gradient: "from-purple-400 to-indigo-500" },
+  { id: "tired", type: "text", gradient: "from-green-400 to-teal-500" },
+  { id: "tired", type: "icon", icon: "😴", gradient: "from-green-400 to-teal-500" },
+  { id: "inLove", type: "text", gradient: "from-pink-400 to-red-500" },
+  { id: "inLove", type: "icon", icon: "😍", gradient: "from-pink-400 to-red-500" },
+]
+
+// Game state
+const gameState = {
+  matches: 0,
+  totalMatches: 6,
+  completedPairs: new Set(),
+}
+let currentLanguage = "es"
+let flippedCards = []
+let canFlip = true
+
+// Utility functions
+function shuffle(array) {
+  const newArray = [...array]
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
   }
-  
-  // Initialize game
-  function initGame() {
-    showCurrentEmoji()
-    updateProgress()
-  
-    // Event listeners
-    checkBtn.addEventListener("click", checkAnswer)
-    nextBtn.addEventListener("click", nextEmoji)
-    closeModal.addEventListener("click", closeSuccessModal)
-  
-    // Allow Enter key to check answer
-    emojiInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        if (!isAnswered) {
-          checkAnswer()
-        } else {
-          nextEmoji()
-        }
-      }
-    })
-  
-    // Focus input
-    emojiInput.focus()
+  return newArray
+}
+
+function createCard(cardInfo, index) {
+  const card = document.createElement("div")
+  card.className = "relative h-32 cursor-pointer"
+  card.onclick = () => flipCard(index)
+
+  const cardInner = document.createElement("div")
+  cardInner.className = "card-flip w-full h-full relative"
+  cardInner.id = `card-${index}`
+
+  const cardFront = document.createElement("div")
+  cardFront.className = "card-front bg-gray-600 rounded-xl flex items-center justify-center shadow-lg"
+  cardFront.innerHTML = '<div class="text-4xl">❓</div>'
+
+  const cardBack = document.createElement("div")
+  cardBack.className = `card-back bg-gradient-to-br ${cardInfo.gradient} rounded-xl flex flex-col items-center justify-center text-white shadow-lg relative`
+
+  if (cardInfo.type === "text") {
+    cardBack.innerHTML = `<div class="text-xl font-bold text-center px-2">${translations[currentLanguage].cards[cardInfo.id]}</div>`
+  } else {
+    cardBack.innerHTML = `<div class="text-5xl mb-2">${cardInfo.icon}</div>`
   }
-  
-  function showCurrentEmoji() {
-    const currentEmoji = emojis[currentEmojiIndex]
-    emojiDisplay.textContent = currentEmoji.emoji
-    emojiDisplay.classList.remove("bounce-in")
-  
-    // Trigger animation
+
+  cardInner.appendChild(cardFront)
+  cardInner.appendChild(cardBack)
+  card.appendChild(cardInner)
+
+  return card
+}
+
+function flipCard(index) {
+  if (!canFlip || flippedCards.length >= 2) return
+
+  const cardElement = document.getElementById(`card-${index}`)
+  if (cardElement.classList.contains("flipped")) return
+
+  cardElement.classList.add("flipped")
+  flippedCards.push(index)
+
+  if (flippedCards.length === 2) {
+    canFlip = false
+    setTimeout(checkMatch, 1000)
+  }
+}
+
+function checkMatch() {
+  const [first, second] = flippedCards
+  const firstCard = cardData[first]
+  const secondCard = cardData[second]
+
+  if (firstCard.id === secondCard.id) {
+    gameState.completedPairs.add(firstCard.id)
+    gameState.matches++
+
+    document.getElementById("score").textContent = gameState.matches
+
+    if (gameState.matches === gameState.totalMatches) {
+      setTimeout(showSuccessModal, 800)
+    }
+  } else {
     setTimeout(() => {
-      emojiDisplay.classList.add("bounce-in")
-    }, 50)
-  
-    // Reset input and feedback
-    emojiInput.value = ""
-    emojiInput.focus()
-    feedback.textContent = ""
-    feedback.className =
-      "text-center text-2xl font-bold min-h-[60px] flex items-center justify-center rounded-2xl transition-all duration-300"
-  
-    // Reset buttons
-    checkBtn.classList.remove("hidden")
-    nextBtn.classList.add("hidden")
-    isAnswered = false
+      document.getElementById(`card-${first}`).classList.remove("flipped")
+      document.getElementById(`card-${second}`).classList.remove("flipped")
+    }, 500)
   }
-  
-  function checkAnswer() {
-    if (isAnswered) return
-  
-    const userAnswer = emojiInput.value.toLowerCase().trim()
-    const correctAnswer = emojis[currentEmojiIndex].name
-  
-    if (userAnswer === "") {
-      showFeedback("Por favor escribe una respuesta", "warning")
-      return
+
+  flippedCards = []
+  canFlip = true
+}
+
+function showSuccessModal() {
+  document.getElementById("success-modal").classList.remove("hidden")
+}
+
+function closeModal() {
+  document.getElementById("success-modal").classList.add("hidden")
+}
+
+function resetGame() {
+  flippedCards = []
+  gameState.matches = 0
+  gameState.completedPairs.clear()
+  canFlip = true
+  document.getElementById("score").textContent = "0"
+  closeModal()
+  initGame()
+}
+
+function changeLanguage(lang) {
+  currentLanguage = lang
+  updateTexts()
+  initGame()
+}
+
+function updateTexts() {
+  const t = translations[currentLanguage]
+  document.querySelector("h1").innerHTML = `😊 ${t.title}`
+  document.querySelector("p.text-blue-100").textContent = t.subtitle
+  document.getElementById("instructions").textContent = t.instructions
+  document.getElementById("instructions-text").textContent = t.instructionsText
+  document.getElementById("score-text").innerHTML = `${t.scoreText} <span id="score">${gameState.matches}</span>/6`
+  document.getElementById("reset-text").textContent = t.resetText
+  document.getElementById("success-title").textContent = t.successTitle
+  document.getElementById("success-message").textContent = t.successMessage
+  document.getElementById("play-again-text").textContent = t.playAgainText
+  document.getElementById("continue-text").textContent = t.continueText
+}
+
+function initGame() {
+  const gameBoard = document.getElementById("game-board")
+  gameBoard.innerHTML = ""
+
+  const shuffledCards = shuffle(cardData)
+  shuffledCards.forEach((cardInfo, index) => {
+    const cardElement = createCard(cardInfo, index)
+    gameBoard.appendChild(cardElement)
+  })
+
+  cardData.length = 0
+  cardData.push(...shuffledCards)
+}
+
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back()
+  } else {
+    window.location.href = "actividades.html"
+  }
+}
+
+function continueToActivities() {
+  closeModal()
+  completarActividad(5) // ✅ última actividad
+  // No redirige porque es la última
+}
+
+// Progress management with localStorage
+function completarActividad(activityNumber) {
+  try {
+    let progreso = Number.parseInt(localStorage.getItem("progreso_actividades")) || 0
+    if (activityNumber === progreso + 1) {
+      localStorage.setItem("progreso_actividades", activityNumber.toString())
     }
-  
-    if (userAnswer === correctAnswer) {
-      showFeedback("¡Correcto! ✅", "success")
-      completedEmojis++
-      updateProgress()
-      isAnswered = true
-  
-      // Show next button or complete game
-      if (currentEmojiIndex < emojis.length - 1) {
-        checkBtn.classList.add("hidden")
-        nextBtn.classList.remove("hidden")
-      } else {
-        setTimeout(() => {
-          completeGame()
-        }, 1500)
-      }
-    } else {
-      showFeedback("Incorrecto ❌ Intenta de nuevo", "error")
-      emojiInput.classList.add("shake")
-      setTimeout(() => {
-        emojiInput.classList.remove("shake")
-      }, 500)
-      emojiInput.select()
+    localStorage.setItem(`actividad_${activityNumber}_completada`, "true")
+    localStorage.setItem(`actividad_${activityNumber}_fecha`, new Date().toISOString())
+    if (activityNumber === 5) {
+      localStorage.setItem("progreso_global", "100")
     }
+  } catch (e) {
+    console.error("Error guardando progreso:", e)
   }
-  
-  function showFeedback(message, type) {
-    feedback.textContent = message
-  
-    switch (type) {
-      case "success":
-        feedback.className =
-          "text-center text-2xl font-bold min-h-[60px] flex items-center justify-center rounded-2xl transition-all duration-300 bg-green-100 text-green-800 border-2 border-green-300"
-        break
-      case "error":
-        feedback.className =
-          "text-center text-2xl font-bold min-h-[60px] flex items-center justify-center rounded-2xl transition-all duration-300 bg-red-100 text-red-800 border-2 border-red-300"
-        break
-      case "warning":
-        feedback.className =
-          "text-center text-2xl font-bold min-h-[60px] flex items-center justify-center rounded-2xl transition-all duration-300 bg-yellow-100 text-yellow-800 border-2 border-yellow-300"
-        break
-    }
-  }
-  
-  function nextEmoji() {
-    if (currentEmojiIndex < emojis.length - 1) {
-      currentEmojiIndex++
-      showCurrentEmoji()
-    }
-  }
-  
-  function updateProgress() {
-    progreso.textContent = `${completedEmojis}/${emojis.length}`
-  }
-  
-  function completeGame() {
-    successModal.classList.remove("hidden")
-    successModal.classList.add("flex")
-  
-    // Scale animation for modal
-    const modalContent = successModal.querySelector("div")
-    modalContent.style.transform = "scale(0.7)"
-    setTimeout(() => {
-      modalContent.style.transform = "scale(1)"
-    }, 100)
-  
-    // Call completion function
-    if (typeof completarActividad === "function") {
-      completarActividad(7)
-    } else {
-      console.log("Actividad 7 completada - completarActividad(7) called")
-    }
-  }
-  
-  function closeSuccessModal() {
-    successModal.classList.add("hidden")
-    successModal.classList.remove("flex")
-  
-    // Reset game if needed
-    // currentEmojiIndex = 0;
-    // completedEmojis = 0;
-    // showCurrentEmoji();
-    // updateProgress();
-  }
-  
-  // Initialize game when page loads
-  document.addEventListener("DOMContentLoaded", initGame)
-  
-  // Add some console logging for debugging
-  console.log("[v0] Emoji game initialized with", emojis.length, "emojis")
-  
+}
+
+// Init
+document.addEventListener("DOMContentLoaded", () => {
+  updateTexts()
+  initGame()
+})

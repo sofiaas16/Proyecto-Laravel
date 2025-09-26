@@ -87,15 +87,24 @@
     </head>
     <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
         <div class="container mx-auto px-4 py-8">
+            <!-- HEADER -->
             <header class="text-center mb-8">
-                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                    <h1 class="text-4xl font-bold text-gray-800 mb-2">
-                        <i class="fas fa-palette text-purple-500 mr-3"></i>
-                        <span id="title">Vocabulario de Colores</span>
-                    </h1>
-                    <p class="text-lg text-gray-600" id="subtitle">
-                        Une cada color con su nombre
-                    </p>
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 flex justify-between items-center">
+                    <div>
+                        <h1 class="text-4xl font-bold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-palette text-purple-500 mr-3"></i>
+                            <span id="title">Vocabulario de Colores</span>
+                        </h1>
+                        <p class="text-lg text-gray-600 text-left" id="subtitle">
+                            Une cada color con su nombre
+                        </p>
+                    </div>
+                    <button
+                        onclick="window.location.href='actividades.html'"
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                    >
+                        <i class="fas fa-arrow-left mr-2"></i> Volver
+                    </button>
                 </div>
 
                 <div class="flex justify-center gap-4 mb-4">
@@ -129,6 +138,7 @@
                 </div>
             </header>
 
+            <!-- GAME -->
             <div class="relative">
                 <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                     <div class="bg-white rounded-2xl shadow-lg p-6">
@@ -156,6 +166,7 @@
                 </div>
             </div>
 
+            <!-- FEEDBACK -->
             <div
                 id="feedback"
                 class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 text-center hidden z-50"
@@ -163,6 +174,7 @@
                 <div id="feedback-content"></div>
             </div>
 
+            <!-- SUCCESS MODAL -->
             <div
                 id="success-modal"
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
@@ -193,7 +205,7 @@
                             <span id="restart-btn">Reiniciar</span>
                         </button>
                         <button
-                            onclick="goBack()"
+                            onclick="window.location.href='actividades.html'"
                             class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                         >
                             <i class="fas fa-arrow-left mr-2"></i>

@@ -1,130 +1,111 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad 7 - Nombres de Emojis</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes bounce-in {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-            20%, 40%, 60%, 80% { transform: translateX(10px); }
-        }
-        
-        .bounce-in {
-            animation: bounce-in 0.6s ease-out;
-        }
-        
-        .shake {
-            animation: shake 0.5s ease-in-out;
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Memoria - Vocabulario de Emociones</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+    body { font-family: 'Comic Neue', cursive; }
+
+    .card-flip {
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+    .card-flip.flipped {
+      transform: rotateY(180deg);
+    }
+    .card-front,
+    .card-back {
+      backface-visibility: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    .success-bounce {
+      animation: bounce 0.6s ease-in-out;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .correct-match {
+      border: 3px solid #10b981 !important;
+      background-color: #d1fae5 !important;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen p-4">
-    <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-8 fade-in">
-            <h1 class="text-4xl font-bold text-purple-800 mb-2">🎮 Juego de Emojis</h1>
-            <p class="text-xl text-gray-700">Escribe el nombre del emoji que ves</p>
-            <div class="mt-4">
-                <div class="bg-white rounded-full px-6 py-2 inline-block shadow-lg">
-                    <span class="text-lg font-semibold text-purple-700">Progreso: </span>
-                    <span id="progreso" class="text-lg font-bold text-green-600">0/5</span>
-                </div>
-            </div>
+<body class="bg-gray-100 min-h-screen">
+  <div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <header class="bg-blue-500 text-white p-6 rounded-lg mb-6 shadow-lg">
+      <div class="flex justify-between items-center flex-wrap gap-4">
+        <div>
+          <h1 class="text-3xl font-bold mb-2">😊 Vocabulario de Emociones</h1>
+          <p class="text-blue-100 text-lg">Aprende palabras básicas de emociones</p>
         </div>
-
-        <!-- Game Area -->
-        <div class="bg-white rounded-3xl shadow-2xl p-8 mb-6">
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <!-- Left Side - Emoji Display -->
-                <div class="text-center">
-                    <div class="bg-gradient-to-br from-yellow-100 to-orange-100 rounded-3xl p-8 shadow-lg">
-                        <div id="emoji-display" class="text-9xl mb-4 bounce-in">😀</div>
-                        <p class="text-2xl font-semibold text-gray-700">¿Cómo se llama este emoji?</p>
-                    </div>
-                </div>
-
-                <!-- Right Side - Input Area -->
-                <div class="space-y-6">
-                    <div>
-                        <label for="emoji-input" class="block text-2xl font-semibold text-gray-700 mb-3">
-                            Escribe el nombre (en minúsculas):
-                        </label>
-                        <input 
-                            type="text" 
-                            id="emoji-input" 
-                            class="w-full text-2xl p-4 border-3 border-gray-300 rounded-2xl focus:border-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-300"
-                            placeholder="Ejemplo: feliz"
-                            autocomplete="off"
-                        >
-                    </div>
-                    
-                    <button 
-                        id="check-btn" 
-                        class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-2xl font-bold py-4 px-8 rounded-2xl hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
-                    >
-                        ✨ Comprobar Respuesta
-                    </button>
-                    
-                    <!-- Feedback Area -->
-                    <div id="feedback" class="text-center text-2xl font-bold min-h-[60px] flex items-center justify-center rounded-2xl transition-all duration-300">
-                    </div>
-                    
-                    <button 
-                        id="next-btn" 
-                        class="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white text-2xl font-bold py-4 px-8 rounded-2xl hover:from-green-600 hover:to-blue-600 transform hover:scale-105 transition-all duration-300 shadow-lg hidden"
-                    >
-                        ➡️ Siguiente Emoji
-                    </button>
-                </div>
-            </div>
+        <div class="flex gap-3">
+          <button onclick="changeLanguage('es')" class="language-btn bg-white text-blue-500 px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors" data-lang="es">ES</button>
+          <button onclick="changeLanguage('en')" class="language-btn bg-blue-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-300 transition-colors" data-lang="en">EN</button>
+          <button onclick="changeLanguage('fr')" class="language-btn bg-blue-400 text-white px-4 py-2 rounded-lg font-semibold text-lg hover:bg-blue-300 transition-colors" data-lang="fr">FR</button>
+          <button onclick="goBack()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+            ← Volver
+          </button>
         </div>
+      </div>
+    </header>
 
-        <!-- Instructions -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 fade-in">
-            <h3 class="text-2xl font-bold text-purple-800 mb-3">📋 Instrucciones:</h3>
-            <ul class="text-lg text-gray-700 space-y-2">
-                <li>• Observa el emoji grande en la pantalla</li>
-                <li>• Escribe su nombre en minúsculas en el campo de texto</li>
-                <li>• Presiona "Comprobar Respuesta" para verificar</li>
-                <li>• Completa todos los emojis para ganar</li>
-            </ul>
+    <!-- Info -->
+    <div class="bg-green-100 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg">
+      <div class="flex items-center">
+        <div class="text-green-600 text-2xl mr-3">ℹ️</div>
+        <div>
+          <p class="text-green-800 font-semibold text-lg" id="instructions">¿Cómo usar esta página?</p>
+          <p class="text-green-700 text-base" id="instructions-text">
+            Encuentra los pares de tarjetas que coinciden. Haz clic en las tarjetas para voltearlas y busca las parejas.
+          </p>
         </div>
+      </div>
     </div>
+
+    <!-- Score + Reset -->
+    <div class="text-center mb-6">
+      <div class="flex justify-center items-center gap-4 mb-4">
+        <span class="text-2xl font-bold text-gray-700" id="score-text">Pares encontrados: <span id="score">0</span>/6</span>
+        <button onclick="resetGame()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold text-lg transition-colors">
+          🔄 <span id="reset-text">Reiniciar</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Game Board -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto" id="game-board"></div>
 
     <!-- Success Modal -->
-    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-3xl p-8 max-w-md mx-4 text-center shadow-2xl transform scale-95 transition-transform duration-300">
-            <div class="text-6xl mb-4">🎉</div>
-            <h2 class="text-3xl font-bold text-green-600 mb-4">¡Felicitaciones!</h2>
-            <p class="text-xl text-gray-700 mb-6">Has completado todos los emojis correctamente. ¡Excelente trabajo!</p>
-            <button 
-                id="close-modal" 
-                class="bg-gradient-to-r from-green-500 to-blue-500 text-white text-xl font-bold py-3 px-8 rounded-2xl hover:from-green-600 hover:to-blue-600 transform hover:scale-105 transition-all duration-300 shadow-lg"
-            >
-                ✨ Continuar
-            </button>
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+      <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md mx-4">
+        <div class="text-6xl mb-4">🎉</div>
+        <h2 class="text-3xl font-bold text-green-600 mb-4" id="success-title">¡Felicitaciones!</h2>
+        <p class="text-gray-700 text-lg mb-6" id="success-message">
+          Has completado el juego de memoria. ¡Excelente trabajo aprendiendo emociones!
+        </p>
+        <div class="flex space-x-4">
+          <button onclick="resetGame()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
+            <span id="play-again-text">Jugar de nuevo</span>
+          </button>
+          <button onclick="continueToActivities()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
+            <span id="continue-text">Finalizar</span>
+          </button>
         </div>
+      </div>
     </div>
-
-    <script src="actividad7.js"></script>
+  </div>
+  <script src="../js/actividad5.js"></script>
 </body>
 </html>
