@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarjetas de Comunicación - Admin (con Cuestionario)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background-color: #f0f8ff; }
+    #lista-tarjetas, #cuestionario-lista { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    @media (max-width: 600px) { #lista-tarjetas, #cuestionario-lista { grid-template-columns: 1fr; } }
+    .tarjeta {
+      background-color: #fff; border: 3px solid #3399ff; border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 20px; transition: all 0.3s ease;
+    }
+    .tarjeta:hover { transform: translateY(-2px); }
+    .tarjeta h3 { color: #3399ff; font-size: 22px; font-weight: 600; }
+    .tarjeta p { color: #555; font-size: 16px; line-height: 1.6; }
+    .tarjeta img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
+    .cuestionario-activo { border-color: #10b981 !important; background-color: #ecfdf5; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3); }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <nav class="bg-blue-600 text-white shadow-lg p-4 flex justify-between">
+    <h1 class="text-xl font-bold">Plataforma Inclusiva - Admin</h1>
+    <div class="flex gap-4">
+      <a href="#" onclick="mostrarSeccion('admin')" class="hover:text-blue-200"><i class="fas fa-cogs"></i> Admin Tarjetas</a>
+      <a href="#" onclick="mostrarSeccion('cuestionario')" class="hover:text-blue-200"><i class="fas fa-clipboard-list"></i> Vista de Cuestionario</a>
+      <a href="homeAdmin.html" class="hover:text-blue-200"><i class="fas fa-home"></i> Inicio</a>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Sección Admin (por default) -->
+    <div id="seccion-admin">
+      <h2 class="text-3xl font-bold text-center mb-8">Tarjetas de Comunicación</h2>
+
+      <div class="bg-white shadow-lg rounded-xl p-6 mb-8">
+        <h3 id="form-title" class="text-2xl font-semibold mb-4 text-blue-600">Agregar Nueva Tarjeta</h3>
+        <form id="form-tarjeta" class="space-y-4">
+          <input type="hidden" id="tarjeta-id">
+          <input type="url" id="image" placeholder="URL de la Imagen (ej: https://picsum.photos/300/200)" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+          <input type="text" id="key_phrase" placeholder="Frase Clave (ej: Hola mundo)" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+          <input type="text" id="translations_es" placeholder="Traducción ES (ej: Saludo básico)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+          <input type="text" id="translations_en" placeholder="Traducción EN (ej: Basic greeting)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+          <input type="url" id="audio_es" placeholder="URL de Audio ES (ej: https://www.soundjay.com/misc/sounds/bell-ringing-05.wav)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+          <input type="url" id="audio_en" placeholder="URL de Audio EN (ej: https://www.soundjay.com/human/sounds/breathing-1.mp3)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+          <input type="text" id="method" placeholder="Método (ej: visual, audio o mixed)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Guardar</button>
+          <button type="button" id="cancelar-edicion" class="hidden bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600">Cancelar</button>
+        </form>
+      </div>
+
+      <div id="mensaje" class="text-center text-red-600 font-semibold mb-6"></div>
+      <div id="lista-tarjetas"></div>
+    </div>
+
+    <!-- Sección Cuestionario -->
+    <div id="seccion-cuestionario" class="hidden">
+      <h2 class="text-3xl font-bold text-center mb-8">Cuestionario Inclusivo (Ejemplo: ¿Cómo te sientes hoy?)</h2>
+      <p class="text-center text-gray-600 mb-6">Selecciona una tarjeta como respuesta. Incluye imagen, frase y audio para accesibilidad.</p>
+      <div id="cuestionario-mensaje" class="text-center text-green-600 font-semibold mb-6 hidden"></div>
+      <div id="cuestionario-lista"></div>
+      <button onclick="resetCuestionario()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 mt-4">Reiniciar Cuestionario</button>
+    </div>
+  </main>
+
+  <script>
+    const API_URL = "http://127.0.0.1:8080/api/cards";
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (!token || role !== "admin") {
+      alert("No autorizado. Por favor inicia sesión como administrador.");
+      window.location.href = "login.html";
+    }
+
+    const mensaje = document.getElementById("mensaje");
+    const form = document.getElementById("form-tarjeta");
+    const submitBtn = form.querySelector('button[type="submit"]');
+    let tarjetasGlobal = []; // Para cuestionario
+
+    function mostrarSeccion(seccion) {
+      document.getElementById("seccion-admin").classList.toggle("hidden", seccion !== "admin");
+      document.getElementById("seccion-cuestionario").classList.toggle("hidden", seccion !== "cuestionario");
+      if (seccion === "cuestionario") renderCuestionario(tarjetasGlobal);
+    }
+
+    function showMessage(text, type = "error") {
+      mensaje.textContent = text;
+      mensaje.className = type === "success" ? "text-center text-green-600 font-semibold mb-6" : "text-center text-red-600 font-semibold mb-6";
+      setTimeout(() => { mensaje.textContent = ""; }, 3000);
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function validarYCorregirURL(campoId, placeholderURL) {
+      const valor = document.getElementById(campoId).value.trim();
+      const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+      if (!valor) {
+        document.getElementById(campoId).value = placeholderURL;
+        return placeholderURL;
+      } else if (!urlRegex.test(valor)) {
+        alert(`El campo ${campoId} no es una URL válida. Usando placeholder.`);
+        document.getElementById(campoId).value = placeholderURL;
+        return placeholderURL;
+      }
+      return valor;
+    }
+
+    async function obtenerTarjetas() {
+      try {
+        const res = await fetch(API_URL, {
+          headers: { "Authorization": `Bearer ${token}`, "Accept": "application/json" }
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}: Error al obtener tarjetas (verifica token)`);
+        const data = await res.json();
+        if (data.status !== "success") throw new Error(data.message || "Error API");
+        tarjetasGlobal = data.cards || [];
+      } catch (error) {
+        console.error(error);
+        showMessage("API no disponible (401/otros). Usando datos de ejemplo.", "error");
+        // Datos de ejemplo basados en tu descripción
+        tarjetasGlobal = [
+          { id: 1, image: 'https://picsum.photos/300/200?random=1', key_phrase: 'perspiciatis voluptatibus placeat', translations: { es: 'Ipsam voluptas tenetur quae.', en: 'Consectetur porro voluptas hic est accusamus aut est.' }, audio_files: { es: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav', en: 'https://www.soundjay.com/human/sounds/breathing-1.mp3' }, method: 'visual' },
+          { id: 2, image: 'https://picsum.photos/300/200?random=2', key_phrase: 'placeat quos quaerat', translations: { es: 'Laudantium odit corporis velit aut.', en: 'In voluptate possimus officia ratione est est.' }, audio_files: { es: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav', en: 'https://www.soundjay.com/human/sounds/breathing-1.mp3' }, method: 'visual' },
+          { id: 3, image: 'https://picsum.photos/300/200?random=3', key_phrase: 'omnis nesciunt dolorem', translations: { es: 'Doloremque ut et voluptatum eveniet laboriosam.', en: 'Perferendis repudiandae non maiores ut odit consequatur cupiditate.' }, audio_files: { es: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav', en: 'https://www.soundjay.com/human/sounds/breathing-1.mp3' }, method: 'visual' }
+        ];
+      }
+      renderTarjetas(tarjetasGlobal);
+      renderCuestionario(tarjetasGlobal);
+    }
+
+    function renderTarjetas(tarjetas) {
+      const contenedor = document.getElementById("lista-tarjetas");
+      contenedor.innerHTML = "";
+      if (!tarjetas.length) {
+        contenedor.innerHTML = `<p class="text-gray-600 text-center col-span-2">No hay tarjetas disponibles</p>`;
+        return;
+      }
+      tarjetas.forEach(t => {
+        const translations = typeof t.translations === "string" ? JSON.parse(t.translations) : t.translations || {};
+        const audio_files = typeof t.audio_files === "string" ? JSON.parse(t.audio_files) : t.audio_files || {};
+        const audioESBtn = audio_files.es ? `<button onclick="playAudio('${escapeHTML(audio_files.es)}')" class="text-green-600 hover:text-green-800 text-sm"><i class="fas fa-play"></i> ES</button>` : '';
+        const audioENBtn = audio_files.en ? `<button onclick="playAudio('${escapeHTML(audio_files.en)}')" class="text-blue-600 hover:text-blue-800 text-sm"><i class="fas fa-play"></i> EN</button>` : '';
+        contenedor.innerHTML += `
+          <div class="tarjeta">
+            <img src="${escapeHTML(t.image)}" alt="${escapeHTML(t.key_phrase)}" onerror="this.src='https://picsum.photos/300/200?random=seed';">
+            <h3>${escapeHTML(t.key_phrase)}</h3>
+            <p><strong>ES:</strong> ${escapeHTML(translations.es || 'N/A')}</p>
+            <p><strong>EN:</strong> ${escapeHTML(translations.en || 'N/A')}</p>
+            <div class="mt-4 flex flex-wrap gap-2 items-center">
+              ${audioESBtn} ${audioENBtn}
+              <button onclick="editarTarjeta(${t.id}, '${escapeHTML(t.image)}', '${escapeHTML(t.key_phrase)}', '${escapeHTML(translations.es || '')}', '${escapeHTML(translations.en || '')}', '${escapeHTML(audio_files.es || '')}', '${escapeHTML(audio_files.en || '')}', '${escapeHTML(t.method || '')}')"
+                class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600"><i class="fas fa-edit"></i> Editar</button>
+              <button onclick="eliminarTarjeta(${t.id})" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600"><i class="fas fa-trash"></i> Eliminar</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function renderCuestionario(tarjetas) {
+      const contenedor = document.getElementById("cuestionario-lista");
+      contenedor.innerHTML = "";
+      if (!tarjetas.length) return;
+      const respuestaSeleccionada = localStorage.getItem('respuestaSeleccionada');
+      tarjetas.forEach(t => {
+        const translations = typeof t.translations === "string" ? JSON.parse(t.translations) : t.translations || {};
+        const audio_files = typeof t.audio_files === "string" ? JSON.parse(t.audio_files) : t.audio_files || {};
+        const audioESBtn = audio_files.es ? `<button onclick="playAudio('${escapeHTML(audio_files.es)}')" class="text-green-600 hover:text-green-800 text-sm"><i class="fas fa-play"></i> ES</button>` : '';
+        const audioENBtn = audio_files.en ? `<button onclick="playAudio('${escapeHTML(audio_files.en)}')" class="text-blue-600 hover:text-blue-800 text-sm"><i class="fas fa-play"></i> EN</button>` : '';
+        const esActiva = respuestaSeleccionada == t.id ? 'cuestion
