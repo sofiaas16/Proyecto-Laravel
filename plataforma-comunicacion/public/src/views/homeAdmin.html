@@ -10,6 +10,35 @@
     <body
         class="bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 min-h-screen flex flex-col"
     >
+    <script>
+    const API_URL = "http://127.0.0.1:8080/api/";
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    // Verificar que sea admin y tenga token válido
+    if (!token || role !== "admin") {
+      alert("No autorizado. Por favor inicia sesión como administrador.");
+      window.location.href = "login.html";
+    }
+
+    const mensaje = document.getElementById("mensaje");
+
+    function showMessage(text, type="error") {
+      mensaje.textContent = text;
+      mensaje.className = type === "success"
+        ? "text-center text-green-600 font-semibold mb-6"
+        : "text-center text-red-600 font-semibold mb-6";
+      setTimeout(() => { mensaje.textContent = ""; }, 3000);
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+    }
+    </script>
     <nav class="bg-blue-600 text-white shadow-lg">
         <div class="max-w-10xl mx-auto px-4">
             <div class="flex justify-between items-center py-4">
