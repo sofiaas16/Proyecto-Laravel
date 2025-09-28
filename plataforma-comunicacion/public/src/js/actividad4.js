@@ -136,18 +136,57 @@ class BasicNeedsGame {
 
   setupModal() {
     const closeButton = document.getElementById("close-modal")
-    closeButton.addEventListener("click", () => this.closeModal())
+    closeButton.addEventListener("click", () => this.goBack())
   }
+  
+  goBack() {
+    const modal = document.getElementById("congratulations-modal")
+    modal.classList.add("hidden")
+    modal.classList.remove("flex")
+    
+    // Redirige al menú de actividades
+    window.location.href = "actividades.html"
+  }
+  
+  saveProgress(activityNumber) {
+    try {
+      const progreso = Number.parseInt(localStorage.getItem("progreso_actividades")) || 0
+      if (activityNumber === progreso + 1) {
+        localStorage.setItem("progreso_actividades", activityNumber.toString())
+      }
+      localStorage.setItem(`actividad_${activityNumber}_completada`, "true")
+      localStorage.setItem(`actividad_${activityNumber}_fecha`, new Date().toISOString())
+    } catch (error) {
+      console.error("Error guardando progreso:", error)
+    }
+  }
+  
 
   showCongratulations() {
     const modal = document.getElementById("congratulations-modal")
     modal.classList.remove("hidden")
     modal.classList.add("flex")
-
+  
     if (typeof window.completarActividad === "function") {
       window.completarActividad(8)
     }
+  
+    try {
+      const progreso = Number.parseInt(localStorage.getItem("progreso_actividades")) || 0
+      if (progreso < 8) {
+        localStorage.setItem("progreso_actividades", "8")
+      }
+      localStorage.setItem("actividad_8_completada", "true")
+      localStorage.setItem("actividad_8_fecha", new Date().toISOString())
+    } catch (error) {
+      console.error("Error guardando progreso:", error)
+    }
+  
+    setTimeout(() => {
+      window.location.href = "actividades.html"
+    }, 2000)
   }
+  
 
   closeModal() {
     const modal = document.getElementById("congratulations-modal")
