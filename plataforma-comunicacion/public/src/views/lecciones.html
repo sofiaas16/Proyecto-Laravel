@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Lecciones</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- Fuente Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    #lista-lecciones {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      #lista-lecciones {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      #lista-lecciones {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .leccion {
+      background-color: #ffffff;
+      border:3px solid #3399ff;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      padding: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .leccion:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+
+    .leccion h3 {
+      margin-top: 0;
+      color: #3399ff;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .leccion p {
+      color: #555555;
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+  <nav class="bg-blue-600 text-white shadow-lg">
+    <div class="max-w-10xl mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                </div>
+                <h1 class="text-xl font-bold">Plataforma Inclusiva</h1>
+            </div>
+            <div class="flex space-x-6">
+                <a href="home.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                    <i class="fas fa-home mr-2"></i>Inicio
+                </a>
+                <a href="vocabulario.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                    <i class="fas fa-book mr-2"></i>Vocabulario
+                </a>
+                <a href="actividades.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                    <i class="fas fa-gamepad mr-2"></i>Actividades
+                </a>
+                <a href="lecciones.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                    <i class="fas fa-user mr-2"></i>Lecciones
+                </a>
+                <a href="tarjetasDeComunicacion.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                  <i class="fas fa-user mr-2"></i>Tarjetas De Comunicación
+              </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<main class="max-w-6xl mx-auto px-4 py-8">
+  <!-- Header de la página -->
+  <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+          <i class="fas fa-gamepad text-blue-600 text-2xl"></i>
+      </div>
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">Lecciones Educativas</h1>
+      <p class="text-xl text-gray-600">Completa las lecciones en orden para desbloquear nuevos desafíos</p>
+  </div>
+
+  <!-- Indicador de progreso -->
+  <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <div class="flex items-center justify-between mb-4">
+          <h2 class="text-2xl font-semibold text-gray-800">Tu Progreso</h2>
+          <div class="flex items-center space-x-2">
+              <i class="fas fa-trophy text-yellow-500 text-xl"></i>
+              <span id="progress-text" class="text-lg font-medium text-gray-700">0 de 10 completadas</span>
+          </div>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-4">
+          <div id="progress-bar" class="bg-gradient-to-r from-green-400 to-blue-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+  </div>
+  <!-- CONTENIDO -->
+  <div class="container">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-black text-center mb-8 tracking-wide">
+      Mis Lecciones
+    </h2>
+    <div id="lista-lecciones"></div>
+  </div>
+  <script>
+    const API_URL = "http://127.0.0.1:8080/api/";
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      window.location.href = "login.html";
+    }
+  
+    let leccionesGlobal = [];
+    let leccionesCompletadas = [];
+  
+    // 1. Traer lecciones y progreso real
+    async function obtenerLeccionesYProgreso() {
+      try {
+        const [resLecciones, resProgreso] = await Promise.all([
+          fetch(API_URL + "lecciones", {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Accept": "application/json"
+            }
+          }),
+          fetch(API_URL + "progresos", {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Accept": "application/json"
+            }
+          })
+        ]);
+  
+        if (!resLecciones.ok || !resProgreso.ok)
+          throw new Error("Error HTTP");
+  
+        const dataLecciones = await resLecciones.json();
+        const dataProgreso = await resProgreso.json();
+  
+        leccionesGlobal = dataLecciones.lecciones;
+        leccionesCompletadas = dataProgreso.lecciones; // ids completadas
+  
+        renderLecciones();
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+        document.getElementById("lista-lecciones").innerHTML =
+          "<p style='color:red;text-align:center;'>Error al cargar las lecciones. Verifica tu token o inicia sesión nuevamente.</p>";
+      }
+    }
+  
+    // 2. Guardar progreso al hacer click
+    async function marcarLeccionComoCompletada(leccionId) {
+      try {
+        const res = await fetch(API_URL + "progresos/guardar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ lecciones_completadas: [leccionId] })
+        });
+  
+        const data = await res.json();
+        console.log("Progreso guardado:", data);
+  
+        // Volver a cargar progreso después de marcar
+        obtenerLeccionesYProgreso();
+      } catch (error) {
+        console.error("Error al guardar progreso:", error);
+      }
+    }
+  
+    // 3. Renderizar en pantalla
+    function renderLecciones() {
+      const contenedor = document.getElementById("lista-lecciones");
+      contenedor.innerHTML = "";
+  
+      // progreso real
+      const total = leccionesGlobal.length;
+      const completadas = leccionesCompletadas.length;
+      const porcentaje = (completadas / total) * 100;
+  
+      document.getElementById("progress-text").textContent =
+        `${completadas} de ${total} completadas`;
+      document.getElementById("progress-bar").style.width = porcentaje + "%";
+  
+      leccionesGlobal.forEach(leccion => {
+        const completada = leccionesCompletadas.includes(leccion.id);
+  
+        contenedor.innerHTML += `
+          <div class="leccion ${completada ? 'bg-green-50' : ''}" onclick="marcarLeccionComoCompletada(${leccion.id})">
+            <div class="flex justify-between items-center">
+              <h3>${leccion.titulo}</h3>
+              ${completada ? '<i class="fas fa-check-circle text-green-500 text-xl"></i>' : '<i class="fas fa-circle text-gray-300 text-xl"></i>'}
+            </div>
+            <p>${leccion.contenido ?? ''}</p>
+          </div>
+        `;
+      });
+    }
+  
+    // inicial
+    obtenerLeccionesYProgreso();
+  </script>
+  
+  
+</body>
+</html>

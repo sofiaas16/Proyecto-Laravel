@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vocabulario - Plataforma Inclusiva</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <script>
+    const API_URL = "http://127.0.0.1:8080/api/";
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    // Verificar que sea admin y tenga token válido
+    if (!token || role !== "admin") {
+      alert("No autorizado. Por favor inicia sesión como administrador.");
+      window.location.href = "login.html";
+    }
+
+    const mensaje = document.getElementById("mensaje");
+
+    function showMessage(text, type="error") {
+      mensaje.textContent = text;
+      mensaje.className = type === "success"
+        ? "text-center text-green-600 font-semibold mb-6"
+        : "text-center text-red-600 font-semibold mb-6";
+      setTimeout(() => { mensaje.textContent = ""; }, 3000);
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+    }
+
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: "#3B82F6",
+                            secondary: "#10B981",
+                            accent: "#F59E0B",
+                        },
+                    },
+                },
+            };
+        </script>
+    </head>
+    <body
+        class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen font-sans"
+    >
+    <header class="bg-white shadow-sm border-b-2 border-primary/20">
+        <nav class="bg-blue-600 text-white shadow-lg">
+            <div class="max-w-10xl mx-auto px-4">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                        </div>
+                        <h1 class="text-xl font-bold">Plataforma Inclusiva</h1>
+                    </div>
+                    <div class="flex space-x-6">
+                        <a href="homeAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                            <i class="fas fa-home mr-2"></i>Inicio
+                        </a>
+                        <a href="vocabularioAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                            <i class="fas fa-book mr-2"></i>Vocabulario
+                        </a>
+                        <a href="actividadesAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                            <i class="fas fa-gamepad mr-2"></i>Actividades
+                        </a>
+                        <a href="leccionesAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                            <i class="fas fa-user mr-2"></i>Lecciones
+                        </a>
+                        <a href="tarjetasDeComunicacionAdmin.html" class="hover:text-blue-200 font-semibold duration-200 text-lg">
+                            <i class="fas fa-user mr-2"></i>Tarjetas De Comunicación
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+  
+      </header>
+
+        <!-- Main Content -->
+      <!-- Main Content -->
+<main class="max-w-2xl mx-auto px-4 py-8">
+    <div class="flex flex-col gap-6">
+        
+        <!-- Saludos -->
+        <div
+            class="vocabulary-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border-2 border-transparent hover:border-primary/30"
+            onclick="window.location.href='saludos.html'"
+        >
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4">👋</div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                    Saludos
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Aprende palabras básicas de saludo
+                </p>
+            </div>
+        </div>
+
+        <!-- Necesidades Básicas -->
+        <div
+            class="vocabulary-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border-2 border-transparent hover:border-secondary/30"
+            onclick="window.location.href='necesidades.html'"
+        >
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4">🍽️</div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                    Necesidades Básicas
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Comida, bebida y necesidades diarias
+                </p>
+            </div>
+        </div>
+
+        <!-- Emociones -->
+        <div
+            class="vocabulary-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border-2 border-transparent hover:border-accent/30"
+            onclick="window.location.href='emociones.html'"
+        >
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4">😊</div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                    Emociones
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Expresa cómo te sientes
+                </p>
+            </div>
+        </div>
+
+        <!-- Familia y Personas Cercanas -->
+        <div
+            class="vocabulary-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border-2 border-transparent hover:border-purple-300"
+            onclick="window.location.href='familia.html'"
+        >
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4">👨‍👩‍👦</div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                    Familia y Personas Cercanas
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Identifica a las personas importantes
+                </p>
+            </div>
+        </div>
+
+        <!-- Entorno Diario -->
+        <div
+            class="vocabulary-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border-2 border-transparent hover:border-pink-300"
+            onclick="window.location.href='entorno.html'"
+        >
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4">🏡</div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                    Entorno Diario
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Objetos y lugares cotidianos
+                </p>
+            </div>
+        </div>
+
+        <!-- Colores -->
+        <div
+            class="vocabulary-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border-2 border-transparent hover:border-green-300"
+            onclick="window.location.href='colores.html'"
+        >
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4">🎨</div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                    Colores
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Aprende a identificar los colores
+                </p>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+            <div class="mt-12 text-center">
+                <button
+                    onclick="window.location.href='home.html'"
+                    class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl"
+                >
+                    ← Volver al inicio
+                </button>
+            </div>
+      
+
+        <script src="vocabulario.js"></script>
+    </body>
+</html>

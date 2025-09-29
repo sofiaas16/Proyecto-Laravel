@@ -3,12 +3,13 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * The list of the inputs that are never flashed to the session on validation exceptions.
+     * The list of inputs that are never flashed to the session on validation exceptions.
      *
      * @var array<int, string>
      */
@@ -27,4 +28,29 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Render exceptions.
+     */
+    public function render($request, Throwable $exception)
+    {
+        if ($request->is('api/*')) {
+            if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
+                return response()->json(['error' => 'No autenticado'], 401);
+            }
+            if ($exception instanceof \Illuminate\Validation\ValidationException) {
+                return response()->json([
+                    'error' => 'Validación fallida',
+                    'messages' => $exception->errors()
+                ], 422);
+            }
+            return response()->json([
+                'error' => 'Error en la API',
+                'message' => $exception->getMessage()
+            ], 500);
+        }
+    
+        return parent::render($request, $exception);
+    }
+    
 }

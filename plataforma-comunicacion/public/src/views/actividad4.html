@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad 8 - Necesidades Básicas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .dragging { opacity: 0.5; transform: rotate(5deg); }
+    .drop-zone-active { background-color: #dbeafe; border-color: #3b82f6; }
+    .drop-zone-correct { background-color: #dcfce7; border-color: #16a34a; }
+    .drop-zone-incorrect { background-color: #fef2f2; border-color: #dc2626; }
+    .drag-item { transition: all 0.3s ease; }
+    .drag-item:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen p-4">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">Necesidades Básicas</h1>
+      <p class="text-xl text-gray-600">Arrastra cada imagen a su categoría correcta</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Draggable Images Section -->
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Imágenes</h2>
+        <div class="grid grid-cols-2 gap-4" id="images-container">
+
+          <!-- Baño -->
+          <div class="drag-item bg-blue-100 rounded-xl p-4 cursor-move border-2 border-blue-200 text-center" 
+               draggable="true" data-type="bathroom">
+            <img src="../baño.jpg" alt="Ir al baño" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Baño</p>
+          </div>
+
+          <!-- Agua -->
+          <div class="drag-item bg-cyan-100 rounded-xl p-4 cursor-move border-2 border-cyan-200 text-center" 
+               draggable="true" data-type="water">
+            <img src="../agua.jpg" alt="Beber agua" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Agua</p>
+          </div>
+
+          <!-- Dormir -->
+          <div class="drag-item bg-purple-100 rounded-xl p-4 cursor-move border-2 border-purple-200 text-center" 
+               draggable="true" data-type="sleep">
+            <img src="../durmiendo.jpg" alt="Dormir" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Dormir</p>
+          </div>
+
+          <!-- Pedir ayuda -->
+          <div class="drag-item bg-orange-100 rounded-xl p-4 cursor-move border-2 border-orange-200 text-center" 
+               draggable="true" data-type="help">
+            <img src="../Ayuda.webp" alt="Pedir ayuda" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Pedir ayuda</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Drop Zones Section -->
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Categorías</h2>
+        <div class="space-y-4" id="drop-zones-container">
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="bathroom">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Ir al baño</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="water">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Beber agua</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="sleep">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Dormir</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="help">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Pedir ayuda</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mt-8 bg-white rounded-2xl shadow-lg p-6">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-lg font-medium text-gray-700">Progreso</span>
+        <span class="text-lg font-medium text-gray-700" id="progress-text">0/4</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-4">
+        <div class="bg-gradient-to-r from-green-400 to-green-600 h-4 rounded-full transition-all duration-500" 
+             id="progress-bar" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Congratulations Modal -->
+  <div id="congratulations-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-4 text-center">
+      <div class="text-6xl mb-4">🎉</div>
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">¡Felicitaciones!</h2>
+      <p class="text-xl text-gray-600 mb-6">¡Completaste la actividad!</p>
+      <p class="text-lg text-gray-500 mb-6">Has aprendido sobre las necesidades básicas</p>
+      <button id="close-modal" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-3 rounded-xl text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <script src="../js/actividad4.js"></script>
+</body>
+</html>
