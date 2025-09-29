@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad 4 - Necesidades Básicas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    .dragging { opacity: 0.5; transform: rotate(5deg); }
+    .drop-zone-active { background-color: #dbeafe; border-color: #3b82f6; }
+    .drop-zone-correct { background-color: #dcfce7; border-color: #16a34a; }
+    .drop-zone-incorrect { background-color: #fef2f2; border-color: #dc2626; }
+    .drag-item { transition: all 0.3s ease; }
+    .drag-item:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+
+    <header class="text-center mb-8">
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 flex justify-between items-center">
+        <div>
+          <h1 class="text-4xl font-bold text-gray-800 mb-2 flex items-center">
+            <i class="fas fa-hands-helping text-green-500 mr-3"></i>
+            <span>Actividad 4 - Necesidades Básicas</span>
+          </h1>
+          <p class="text-lg text-gray-600 text-left">Arrastra cada imagen a su categoría correcta</p>
+        </div>
+        <button
+          onclick="window.location.href='actividades.html'"
+          class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+        >
+          <i class="fas fa-arrow-left mr-2"></i> Volver
+        </button>
+      </div>
+    </header>
+
+  
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+     
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Imágenes</h2>
+        <div class="grid grid-cols-2 gap-4" id="images-container">
+
+     
+          <div class="drag-item bg-blue-100 rounded-xl p-4 cursor-move border-2 border-blue-200 text-center"
+               draggable="true" data-type="bathroom">
+            <img src="../baño.jpg" alt="Ir al baño" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Baño</p>
+          </div>
+
+          
+          <div class="drag-item bg-cyan-100 rounded-xl p-4 cursor-move border-2 border-cyan-200 text-center"
+               draggable="true" data-type="water">
+            <img src="../agua.jpg" alt="Beber agua" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Agua</p>
+          </div>
+
+          <div class="drag-item bg-purple-100 rounded-xl p-4 cursor-move border-2 border-purple-200 text-center"
+               draggable="true" data-type="sleep">
+            <img src="../durmiendo.jpg" alt="Dormir" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Dormir</p>
+          </div>
+
+          <div class="drag-item bg-orange-100 rounded-xl p-4 cursor-move border-2 border-orange-200 text-center"
+               draggable="true" data-type="help">
+            <img src="../Ayuda.webp" alt="Pedir ayuda" class="w-24 h-24 object-contain mx-auto mb-2">
+            <p class="text-lg font-medium text-gray-700">Pedir ayuda</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Categorías</h2>
+        <div class="space-y-4" id="drop-zones-container">
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="bathroom">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Ir al baño</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="water">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Beber agua</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="sleep">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Dormir</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+          <div class="drop-zone border-3 border-dashed border-gray-300 rounded-xl p-6 text-center min-h-[120px]" 
+               data-accept="help">
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Pedir ayuda</h3>
+            <p class="text-gray-500">Arrastra aquí la imagen correcta</p>
+            <div class="feedback-icon hidden text-4xl mt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div id="congratulations-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-4 text-center">
+      <div class="text-6xl mb-4">🎉</div>
+      <h2 class="text-3xl font-bold text-green-600 mb-4">¡Felicitaciones!</h2>
+      <p class="text-xl text-gray-700 mb-4">Has completado la actividad de necesidades básicas.</p>
+      <div class="flex gap-4 justify-center">
+        <button onclick="window.location.href='actividades.html'" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+          Volver
+        </button>
+        <button id="continue-btn" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/actividad4.js"></script>
+</body>
+</html>

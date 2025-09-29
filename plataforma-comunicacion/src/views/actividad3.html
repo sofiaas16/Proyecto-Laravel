@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Actividad 3 - Asociar Palabras con Imágenes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    .success-bounce {
+      animation: bounce 0.6s ease-in-out;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    .drag-over {
+      border: 3px dashed #10b981 !important;
+      background-color: #d1fae5 !important;
+    }
+    .correct-match {
+      border: 3px solid #10b981 !important;
+      background-color: #d1fae5 !important;
+    }
+    .word-used {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+  
+    <header class="text-center mb-8">
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 flex justify-between items-center">
+        <div>
+          <h1 class="text-4xl font-bold text-gray-800 mb-2 flex items-center">
+            <i class="fas fa-images text-purple-500 mr-3"></i>
+            <span>Actividad 3 - Asociar Palabras con Imágenes</span>
+          </h1>
+          <p class="text-lg text-gray-600 text-left">
+            Arrastra cada palabra hacia la imagen que corresponde
+          </p>
+        </div>
+        <button
+          onclick="window.location.href='actividades.html'"
+          class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+        >
+          <i class="fas fa-arrow-left mr-2"></i> Volver
+        </button>
+      </div>
+
+     
+      <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-lg max-w-2xl mx-auto">
+        <p class="text-green-700">
+          Arrastra cada palabra hacia la imagen correcta. En móvil, toca la palabra y luego la imagen.
+        </p>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+
+      <div class="bg-white rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Palabras</h3>
+        <div id="words-container" class="space-y-3">
+
+        </div>
+      </div>
+
+
+      <div class="bg-white rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Imágenes</h3>
+        <div id="images-container" class="grid grid-cols-2 gap-4">
+   
+        </div>
+      </div>
+    </div>
+
+    <div id="feedback-message" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 shadow-2xl border-4 hidden z-50">
+      <div class="text-center">
+        <div id="feedback-icon" class="text-6xl mb-2"></div>
+        <div id="feedback-text" class="text-xl font-bold"></div>
+      </div>
+    </div>
+
+
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-md mx-4">
+        <div class="text-6xl mb-4">🎉</div>
+        <h2 class="text-3xl font-bold text-green-600 mb-4">¡Excelente trabajo!</h2>
+        <p class="text-gray-700 text-lg mb-6">Has completado la actividad correctamente. ¡Todas las palabras están en su lugar!</p>
+        <div class="flex gap-4 justify-center">
+          <button onclick="resetGame()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+            <i class="fas fa-redo mr-2"></i> Jugar de nuevo
+          </button>
+          <button onclick="continueToActivities()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+            <i class="fas fa-arrow-right mr-2"></i> Continuar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/actividad3.js"></script>
+</body>
+</html>

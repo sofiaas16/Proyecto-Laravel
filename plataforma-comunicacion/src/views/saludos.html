@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vocabulario de Saludos - Plataforma Inclusiva</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body
+        class="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen font-sans"
+    >
+        <header class="bg-white shadow-lg border-b-4 border-blue-400">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-blue-500 text-white p-3 rounded-full">
+                            <i class="fas fa-comments text-2xl"></i>
+                        </div>
+                        <div>
+                            <h1
+                                id="page-title"
+                                class="text-3xl font-bold text-gray-800"
+                            >
+                                Vocabulario de Saludos
+                            </h1>
+                            <p
+                                id="page-description"
+                                class="text-gray-600 text-lg"
+                            >
+                                Aprende palabras básicas de cortesía
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="flex gap-2">
+                            <button
+                                onclick="setLanguage('es')"
+                                class="bg-gray-200 px-3 py-1 rounded"
+                            >
+                                ES
+                            </button>
+                            <button
+                                onclick="setLanguage('en')"
+                                class="bg-gray-200 px-3 py-1 rounded"
+                            >
+                                EN
+                            </button>
+                            <button
+                                onclick="setLanguage('fr')"
+                                class="bg-gray-200 px-3 py-1 rounded"
+                            >
+                                FR
+                            </button>
+                        </div>
+                        <button
+                            onclick="goBack()"
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-lg font-semibold transition-colors duration-200"
+                        >
+                            <i class="fas fa-arrow-left mr-2"></i>Volver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-green-400"
+                >
+                    <div class="flex items-center space-x-3 mb-3">
+                        <i
+                            class="fas fa-info-circle text-green-500 text-2xl"
+                        ></i>
+                        <h2 class="text-xl font-bold text-gray-800">
+                            ¿Cómo usar esta página?
+                        </h2>
+                    </div>
+                    <p class="text-gray-700 text-lg">
+                        Haz clic en cada tarjeta para aprender más sobre cómo
+                        usar estas palabras importantes en tu día a día.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- HOLA -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
+                        onclick="openModal('hola')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-hand-paper text-5xl text-yellow-600"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-hola"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                HOLA
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                Saludo de bienvenida
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ADIÓS -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-purple-400 to-pink-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
+                        onclick="openModal('adios')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-hand-peace text-5xl text-purple-600"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-adios"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                ADIÓS
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                Saludo de despedida
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- GRACIAS -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-green-400 to-teal-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
+                        onclick="openModal('gracias')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-heart text-5xl text-green-600"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-gracias"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                GRACIAS
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                Expresión de agradecimiento
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- POR FAVOR -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-blue-400 to-indigo-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
+                        onclick="openModal('porfavor')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-praying-hands text-5xl text-blue-600"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-porfavor"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                POR FAVOR
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                Petición cortés
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- BUEN DÍA -->
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-red-400 to-rose-400 rounded-2xl shadow-lg p-6 cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
+                        onclick="openModal('buendia')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i class="fas fa-sun text-5xl text-red-600"></i>
+                            </div>
+                            <h3
+                                id="card-buendia"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                BUEN DÍA
+                            </h3>
+                            <p class="text-white text-lg opacity-90">
+                                Saludo matutino
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- MODAL -->
+        <div
+            id="modal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
+        >
+            <div
+                class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+            >
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2
+                            id="modal-title"
+                            class="text-2xl font-bold text-gray-800"
+                        ></h2>
+                        <button
+                            onclick="closeModal()"
+                            class="text-gray-500 hover:text-gray-700 text-2xl"
+                        >
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div id="modal-content" class="space-y-4">
+                        Content will be populated by JavaScript
+                    </div>
+
+                    <div class="mt-6 flex justify-between">
+                        <button
+                            onclick="speakModal()"
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
+                        >
+                            🔊 Escuchar
+                        </button>
+                        <button
+                            onclick="closeModal()"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/saludos.js"></script>
+    </body>
+</html>

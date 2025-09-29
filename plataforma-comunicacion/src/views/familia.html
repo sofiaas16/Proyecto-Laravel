@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vocabulario de Familia y Personas Cercanas</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body
+        class="bg-gradient-to-br from-purple-50 to-blue-50 min-h-screen font-sans"
+    >
+        <header class="bg-white shadow-lg border-b-4 border-purple-400">
+            <div
+                class="container mx-auto px-4 py-6 flex justify-between items-center"
+            >
+                <div class="flex items-center space-x-3">
+                    <div class="bg-purple-500 text-white p-3 rounded-full">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1
+                            id="page-title"
+                            class="text-3xl font-bold text-gray-800"
+                        >
+                            Familia y Personas Cercanas
+                        </h1>
+                        <p id="page-description" class="text-gray-600 text-lg">
+                            Aprende palabras para hablar de tus seres queridos
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="flex gap-2">
+                        <button
+                            onclick="setLanguage('es')"
+                            class="bg-gray-200 px-3 py-1 rounded"
+                        >
+                            ES
+                        </button>
+                        <button
+                            onclick="setLanguage('en')"
+                            class="bg-gray-200 px-3 py-1 rounded"
+                        >
+                            EN
+                        </button>
+                        <button
+                            onclick="setLanguage('fr')"
+                            class="bg-gray-200 px-3 py-1 rounded"
+                        >
+                            FR
+                        </button>
+                    </div>
+                    <button
+                        onclick="goBack()"
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-lg font-semibold transition"
+                    >
+                        <i class="fas fa-arrow-left mr-2"></i>Volver
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-purple-400"
+                >
+                    <div class="flex items-center space-x-3 mb-3">
+                        <i
+                            class="fas fa-info-circle text-purple-500 text-2xl"
+                        ></i>
+                        <h2 class="text-xl font-bold text-gray-800">
+                            ¿Cómo usar esta página?
+                        </h2>
+                    </div>
+                    <p class="text-gray-700 text-lg">
+                        Haz clic en cada tarjeta para aprender cómo nombrar y
+                        hablar de tu familia y personas cercanas en diferentes
+                        situaciones.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-pink-400 to-rose-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('mama')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-female text-5xl text-pink-500"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-mama"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                MAMÁ
+                            </h3>
+                            <p class="mama-desc text-white text-lg opacity-90">
+                                La persona que cuida de ti
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-blue-400 to-indigo-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('papa')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-male text-5xl text-blue-600"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-papa"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                PAPÁ
+                            </h3>
+                            <p class="papa-desc text-white text-lg opacity-90">
+                                La persona que te apoya y acompaña
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-green-400 to-teal-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('hermano')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-child text-5xl text-green-600"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-hermano"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                HERMANO/A
+                            </h3>
+                            <p
+                                class="hermano-desc text-white text-lg opacity-90"
+                            >
+                                Tus compañeros en la familia
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('abuela')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-blind text-5xl text-yellow-600"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-abuela"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                ABUELA
+                            </h3>
+                            <p
+                                class="abuela-desc text-white text-lg opacity-90"
+                            >
+                                La madre de tu mamá o tu papá
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('amigo')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-user-friends text-5xl text-purple-600"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-amigo"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                AMIGO
+                            </h3>
+                            <p class="amigo-desc text-white text-lg opacity-90">
+                                Una persona especial que eliges
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div
+            id="modal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
+        >
+            <div
+                class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+            >
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2
+                            id="modal-title"
+                            class="text-2xl font-bold text-gray-800"
+                        ></h2>
+                        <button
+                            onclick="closeModal()"
+                            class="text-gray-500 hover:text-gray-700 text-2xl"
+                        >
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="modal-content" class="space-y-4"></div>
+                    <div class="mt-6 flex justify-between">
+                        <button
+                            onclick="speakModal()"
+                            class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition"
+                        >
+                            🔊 Escuchar
+                        </button>
+                        <button
+                            onclick="closeModal()"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/familia.js"></script>
+    </body>
+</html>

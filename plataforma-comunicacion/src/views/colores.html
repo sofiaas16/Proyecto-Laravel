@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vocabulario de Colores</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body
+        class="bg-gradient-to-br from-indigo-50 to-pink-50 min-h-screen font-sans"
+    >
+        <header class="bg-white shadow-lg border-b-4 border-indigo-400">
+            <div
+                class="container mx-auto px-4 py-6 flex justify-between items-center"
+            >
+                <div class="flex items-center space-x-3">
+                    <div class="bg-indigo-500 text-white p-3 rounded-full">
+                        <i class="fas fa-palette text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1
+                            id="page-title"
+                            class="text-3xl font-bold text-gray-800"
+                        >
+                            Colores
+                        </h1>
+                        <p id="page-description" class="text-gray-600 text-lg">
+                            Aprende a identificar y usar los colores
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="flex gap-2">
+                        <button
+                            onclick="setLanguage('es')"
+                            class="bg-gray-200 px-3 py-1 rounded"
+                        >
+                            ES
+                        </button>
+                        <button
+                            onclick="setLanguage('en')"
+                            class="bg-gray-200 px-3 py-1 rounded"
+                        >
+                            EN
+                        </button>
+                        <button
+                            onclick="setLanguage('fr')"
+                            class="bg-gray-200 px-3 py-1 rounded"
+                        >
+                            FR
+                        </button>
+                    </div>
+                    <button
+                        onclick="goBack()"
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-lg font-semibold transition"
+                    >
+                        <i class="fas fa-arrow-left mr-2"></i>Volver
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-indigo-400"
+                >
+                    <div class="flex items-center space-x-3 mb-3">
+                        <i
+                            class="fas fa-info-circle text-indigo-500 text-2xl"
+                        ></i>
+                        <h2 class="text-xl font-bold text-gray-800">
+                            ¿Cómo usar esta página?
+                        </h2>
+                    </div>
+                    <p class="text-gray-700 text-lg">
+                        Haz clic en cada tarjeta para aprender cómo identificar
+                        y describir cosas usando colores en frases completas.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-blue-400 to-indigo-600 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('azul')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-circle text-5xl text-blue-500"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-azul"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                AZUL
+                            </h3>
+                            <p class="azul-desc text-white text-lg opacity-90">
+                                El color del cielo
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-red-400 to-pink-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('rojo')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-circle text-5xl text-red-500"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-rojo"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                ROJO
+                            </h3>
+                            <p class="rojo-desc text-white text-lg opacity-90">
+                                El color de una manzana
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-green-400 to-emerald-600 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('verde')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-circle text-5xl text-green-500"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-verde"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                VERDE
+                            </h3>
+                            <p class="verde-desc text-white text-lg opacity-90">
+                                El color de la naturaleza
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-yellow-400 to-amber-500 rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('amarillo')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-circle text-5xl text-yellow-400"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-amarillo"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                AMARILLO
+                            </h3>
+                            <p
+                                class="amarillo-desc text-white text-lg opacity-90"
+                            >
+                                El color del sol
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="vocabulary-card bg-gradient-to-r from-gray-700 to-black rounded-2xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition"
+                        onclick="openModal('negro')"
+                    >
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="bg-white rounded-full p-4 mb-4 shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-circle text-5xl text-black"
+                                ></i>
+                            </div>
+                            <h3
+                                id="card-negro"
+                                class="text-3xl font-bold text-white mb-2"
+                            >
+                                NEGRO
+                            </h3>
+                            <p class="negro-desc text-white text-lg opacity-90">
+                                El color de la noche
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div
+            id="modal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
+        >
+            <div
+                class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+            >
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2
+                            id="modal-title"
+                            class="text-2xl font-bold text-gray-800"
+                        ></h2>
+                        <button
+                            onclick="closeModal()"
+                            class="text-gray-500 hover:text-gray-700 text-2xl"
+                        >
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="modal-content" class="space-y-4"></div>
+                    <div class="mt-6 flex justify-between">
+                        <button
+                            onclick="speakModal()"
+                            class="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold transition"
+                        >
+                            🔊 Escuchar
+                        </button>
+                        <button
+                            onclick="closeModal()"
+                            class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold transition"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/colores.js"></script>
+    </body>
+</html>
