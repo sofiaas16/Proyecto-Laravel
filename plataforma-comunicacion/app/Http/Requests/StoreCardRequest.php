@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCardRequest extends FormRequest
 {
-    public function authorize()zzz
+    public function authorize()
     {
         // Solo admins
         return $this->user()->is_admin ?? false;

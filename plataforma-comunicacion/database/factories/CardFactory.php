@@ -25,6 +25,8 @@ class CardFactory extends Factory
                 'en' => $this->faker->word() . '.mp3',
             ]),
             'method' => $this->faker->randomElement(['visual', 'auditivo', 'tactil']),
+            'difficulty' => $this->faker->randomElement(['easy', 'medium', 'hard']),
+
         ];
     }
 }

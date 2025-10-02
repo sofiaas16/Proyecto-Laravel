@@ -58,6 +58,7 @@ class CardController extends Controller
         $data['image'] = $data['image'] ?? null;
         $data['translations'] = $data['translations'] ?? [];
         $data['audio_files'] = $data['audio_files'] ?? [];
+        $data['difficulty'] = $data['difficulty'] ?? [];
         $data['method'] = $data['method'] ?? 'default';
     
         $card = Card::create($data);
@@ -105,5 +106,31 @@ class CardController extends Controller
             'status' => 'success',
             'message' => 'Tarjeta eliminada correctamente'
         ]);
+    }
+
+    public function filter(Request $request)
+    {
+        $validated = $request->validate([
+            'language'   => 'nullable|string',
+            'method'     => 'nullable|string',
+            'difficulty' => 'nullable|in:easy,medium,hard',
+        ]);
+
+        $query = Card::query();
+
+
+        if (!empty($validated['language'])) {
+            $query->where('translations->language', $validated['language']);
+        }
+
+        if (!empty($validated['method'])) {
+            $query->where('method', $validated['method']);
+        }
+
+        if (!empty($validated['difficulty'])) {
+            $query->where('difficulty', $validated['difficulty']);
+        }
+
+        return response()->json($cards);
     }
 }

@@ -4,12 +4,14 @@ namespace App\Services;
 use Illuminate\Database\Eloquent\Builder;
 use App\Strategies\CardFilters\MethodFilter;
 use App\Strategies\CardFilters\KeyPhraseFilter;
+use App\Strategies\CardFilters\DifficultyFilter;
 
 class CardFilterService
 {
     protected $filters = [
         'method' => MethodFilter::class,
         'key_phrase' => KeyPhraseFilter::class,
+        'difficulty' =>DifficultyFilter::class,
     ];
 
     public function applyFilters(Builder $query, array $params): Builder
