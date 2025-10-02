@@ -27,6 +27,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/cards', [CardController::class, 'index']);
     Route::get('/cards/{id}', [CardController::class, 'show']);
     
+    // 🔹 Nueva ruta para filtrar cards
+    Route::get('/cards/filter', [CardController::class, 'filter']);
+
     Route::post('/progresos/guardar', [ProgresoController::class, 'guardar']);
     Route::get('/progresos', [ProgresoController::class, 'obtener']);
 
@@ -63,4 +66,13 @@ Route::middleware(['auth:sanctum', 'checkRole:admin'])->group(function () {
     Route::post('/cards', [CardController::class, 'store']);
     Route::put('/cards/{id}', [CardController::class, 'update']);
     Route::delete('/cards/{id}', [CardController::class, 'destroy']);
+});
+
+use App\Http\Controllers\ReportController;
+
+Route::middleware(['auth:sanctum', 'checkRole:admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index']);
+
+    // Reportes
+    Route::get('/reports/usage', [ReportController::class, 'usage']);
 });
