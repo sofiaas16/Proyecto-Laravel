@@ -9,7 +9,6 @@ use App\Http\Controllers\ProgresoController;
 use App\Http\Controllers\LeccionController;
 use App\Http\Controllers\UserController;
 
-// Registro y login
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -23,13 +22,16 @@ Route::middleware('auth:sanctum')->group(function() {
     // Info del usuario logueado
     Route::get('/user', fn(Request $request) => $request->user());
 
-    // Rutas publicas de cards
     Route::get('/cards', [CardController::class, 'index']);
     Route::get('/cards/{id}', [CardController::class, 'show']);
+
+    Route::get('/cards/filter', [CardController::class, 'filter']);
     
+    // Progreso
     Route::post('/progresos/guardar', [ProgresoController::class, 'guardar']);
     Route::get('/progresos', [ProgresoController::class, 'obtener']);
 
+    // Lecciones
     Route::get('/lecciones', [LeccionController::class, 'index']);
     Route::get('/lecciones/{id}', [LeccionController::class, 'show']);
 
@@ -43,19 +45,22 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::put('/cards/{id}', [CardController::class, 'update']);
         Route::delete('/cards/{id}', [CardController::class, 'destroy']);
 
+        // Users
         Route::get('/users', [UserController::class, 'index']);
         Route::get('/users/{id}', [UserController::class, 'show']);
 
-        // Leccion Controller
+        // Lecciones
         Route::post('/lecciones', [LeccionController::class, 'store']);
         Route::put('/lecciones/{id}', [LeccionController::class, 'update']);
         Route::delete('/lecciones/{id}', [LeccionController::class, 'destroy']);
+
+        // Registrar admin
         Route::post('/admin/register', [AdminController::class, 'registerAdmin']);
     });
 
 });
 
-// Rutas admin
+// Rutas admin fuera del grupo anterior (opcional, puedes unificar)
 Route::middleware(['auth:sanctum', 'checkRole:admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index']);
 

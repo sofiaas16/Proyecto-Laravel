@@ -19,6 +19,7 @@ return new class extends Migration
             $table->json('translations'); // {"es":"Hola","en":"Hello"}
             $table->json('audio_files'); // {"es":"hola.mp3","en":"hello.mp3"}
             $table->string('method'); // visual, auditivo, tactil
+            $table->enum('difficulty', ['easy', 'medium', 'hard'])->default('easy');
             $table->timestamps();
         });
     }

@@ -10,6 +10,11 @@ class Card extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title',
+        'content',
+        'lenguage',
+        'comunication_method',
+        'difficulty',
         'uuid',
         'image',
         'key_phrase',
@@ -22,4 +27,5 @@ class Card extends Model
         'translations' => 'array',
         'audio_files' => 'array',
     ];
+
 }

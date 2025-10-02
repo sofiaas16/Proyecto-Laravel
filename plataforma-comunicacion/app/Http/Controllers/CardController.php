@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
-use App\Strategies\CardFilters\Card as CardFilterStrategy;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCardRequest;
 use App\Http\Requests\UpdateCardRequest;
@@ -12,7 +11,37 @@ use App\Services\CardFilterService;
 
 class CardController extends Controller
 {
-    // Listar todas las tarjetas
+    public function filter(Request $request)
+    {
+        $request->validate([
+            'language' => 'nullable|string|max:50',
+            'communication_method' => 'nullable|string|max:50',
+            'difficulty' => 'nullable|in:easy,medium,hard',
+        ]);
+
+        $query = Card::query();
+
+        if ($request->filled('language')) {
+            $query->where('language', $request->language);
+        }
+
+        if ($request->filled('communication_method')) {
+            $query->where('communication_method', $request->communication_method);
+        }
+
+        if ($request->filled('difficulty')) {
+            $query->where('difficulty', $request->difficulty);
+        }
+
+        $cards = $query->paginate(10);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tarjetas filtradas correctamente',
+            'cards' => $cards
+        ]);
+    }
+
     public function index(Request $request, CardFilterService $filterService)
     {
         $query = Card::query();
@@ -25,7 +54,6 @@ class CardController extends Controller
         ]);
     }
 
-    // Mostrar tarjeta específica
     public function show($id)
     {
         $card = Card::find($id);
@@ -48,13 +76,10 @@ class CardController extends Controller
     {
         $data = $request->validated();
     
-        // UUID obligatorio
         $data['uuid'] = Str::uuid();
     
-        // Si no envían key_phrase, ponemos uno por defecto
         $data['key_phrase'] = $data['key_phrase'] ?? 'default-key';
     
-        // Opcional: valores vacíos si no vienen
         $data['image'] = $data['image'] ?? null;
         $data['translations'] = $data['translations'] ?? [];
         $data['audio_files'] = $data['audio_files'] ?? [];
@@ -68,7 +93,6 @@ class CardController extends Controller
             'card' => $card
         ], 201);
     }
-    
     
     // Actualizar tarjeta
     public function update(UpdateCardRequest $request, $id)
