@@ -16,6 +16,8 @@ class Card extends Model
         'translations',
         'audio_files',
         'method',
+        'language',     
+        'difficulty',   
     ];
 
     protected $casts = [
