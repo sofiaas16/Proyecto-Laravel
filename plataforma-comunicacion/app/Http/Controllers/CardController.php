@@ -11,6 +11,13 @@ use App\Http\Requests\UpdateCardRequest;
 
 class CardController extends Controller
 {
+    protected $cardFilterService;
+
+    // 👇 CONSTRUCTOR agregado
+    public function __construct(CardFilterService $cardFilterService)
+    {
+        $this->cardFilterService = $cardFilterService;
+    }
 
     public function index(Request $request, CardFilterService $filterService)
     {
@@ -21,7 +28,6 @@ class CardController extends Controller
             'difficulty' => 'nullable|in:easy,medium,hard',
         ]);
 
-       
         $query = Card::query();
         $query = $filterService->applyFilters($query, $validated);
 
@@ -32,7 +38,6 @@ class CardController extends Controller
         ]);
     }
 
-    
     public function show($id)
     {
         $card = Card::find($id);
@@ -50,12 +55,9 @@ class CardController extends Controller
         ]);
     }
 
-
     public function store(StoreCardRequest $request)
     {
         $data = $request->validated();
-
-    
         $data['uuid'] = Str::uuid();
 
         $data['key_phrase']   = $data['key_phrase']   ?? 'default-key';
@@ -73,7 +75,6 @@ class CardController extends Controller
             'card'    => $card
         ], 201);
     }
-
 
     public function update(UpdateCardRequest $request, $id)
     {
@@ -94,7 +95,6 @@ class CardController extends Controller
         ]);
     }
 
-
     public function destroy($id)
     {
         $card = Card::find($id);
@@ -111,5 +111,13 @@ class CardController extends Controller
             'status'  => 'success',
             'message' => 'Tarjeta eliminada correctamente'
         ]);
+    }
+
+    public function filter(Request $request, CardFilterService $filterService)
+    {
+        $query = Card::query();
+        $filteredQuery = $filterService->applyFilters($query, $request->all());
+
+        return response()->json($filteredQuery->get());
     }
 }
